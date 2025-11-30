@@ -1,0 +1,38 @@
+[
+  {
+    "id": "REP-2023-Q4",
+    "title": "Quarterly Traffic Analysis",
+    "date": "2023-12-15",
+    "scope": "User Acquisition",
+    "summary": "Deep dive into user acquisition channels, retention metrics, and funnel dropout rates for Q4.",
+    "fileName": "traffic-analysis.md",
+    "searchableContent": "traffic analysis user acquisition retention funnel marketing Q4"
+  },
+  {
+    "id": "REP-SYS-01",
+    "title": "System Performance Audit",
+    "date": "2024-01-10",
+    "scope": "Operations",
+    "summary": "Detailed latency breakdown across global edge nodes and database response times across all regions.",
+    "fileName": "perf-audit.md",
+    "searchableContent": "system performance latency audit edge nodes database speed"
+  },
+  {
+    "id": "REP-USR-G",
+    "title": "User Growth Projections",
+    "date": "2024-02-01",
+    "scope": "Forecasting",
+    "summary": "Forecast modeling based on current adoption rates, market trends, and risk assessment.",
+    "fileName": "growth-model.md",
+    "searchableContent": "user growth projections market forecasting adoption rate"
+  },
+  {
+    "id": "REP-SEC-B",
+    "title": "Biometric Security Assessment",
+    "date": "2024-03-20",
+    "scope": "Security",
+    "summary": "Audit of the NeuralModels authentication layer and vulnerability analysis of biometric data processing.",
+    "fileName": "security-audit.md",
+    "searchableContent": "security biometric authentication audit data processing"
+  }
+]
