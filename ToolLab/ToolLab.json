@@ -1,0 +1,57 @@
+[
+  {
+    "id": "TL-001",
+    "title": "Sci-Fi Calculator",
+    "fileName": "sci-fi-calculator.html",
+    "version": "v1.2",
+    "status": "Stable",
+    "category": "Math",
+    "searchableContent": "math physics calculation numbers quantum ui",
+    "iconSVG": "<svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'><rect x='4' y='2' width='16' height='20' rx='2' ry='2'></rect><line x1='8' y1='6' x2='16' y2='6'></line><line x1='16' y1='14' x2='16' y2='14'></line><line x1='8' y1='14' x2='8' y2='14'></line><line x1='12' y1='14' x2='12' y2='14'></line><line x1='16' y1='18' x2='16' y2='18'></line><line x1='8' y1='18' x2='8' y2='18'></line><line x1='12' y1='18' x2='12' y2='18'></line></svg>",
+    "iconURL": ""
+  },
+  {
+    "id": "TL-002",
+    "title": "Word Counter",
+    "fileName": "word-counter.html",
+    "version": "v1.0",
+    "status": "Stable",
+    "category": "Writing",
+    "searchableContent": "text count characters words writing editor",
+    "iconSVG": "<svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'><path d='M4 19.5A2.5 2.5 0 0 1 6.5 17H20'></path><path d='M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z'></path></svg>",
+    "iconURL": ""
+  },
+  {
+    "id": "TL-003",
+    "title": "Code Converter",
+    "fileName": "code-converter.html",
+    "version": "v0.9",
+    "status": "Beta",
+    "category": "Development",
+    "searchableContent": "development programming syntax format json xml",
+    "iconSVG": "",
+    "iconURL": "https://cdn-icons-png.flaticon.com/512/1005/1005141.png"
+  },
+  {
+    "id": "TL-004",
+    "title": "Unit Transformer",
+    "fileName": "unit-transformer.html",
+    "version": "v2.0",
+    "status": "Stable",
+    "category": "Math",
+    "searchableContent": "unit conversion metrics imperial",
+    "iconSVG": "<svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'><path d='M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z'></path></svg>",
+    "iconURL": ""
+  },
+  {
+    "id": "TL-005",
+    "title": "Color Picker",
+    "fileName": "color-picker.html",
+    "version": "v1.5",
+    "status": "Stable",
+    "category": "Design",
+    "searchableContent": "color hex rgb css design",
+    "iconSVG": "<svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'><path d='M21.5 2.5l-2.19 2.19a8 8 0 0 0-11.41 11.41l-2.19 2.19a2 2 0 0 0 0 2.82l.06.06a2 2 0 0 0 2.82 0l2.19-2.19a8 8 0 0 0 11.41-11.41l2.19-2.19a2 2 0 0 0 0-2.82l-.06-.06a2 2 0 0 0-2.82 0z'></path></svg>",
+    "iconURL": ""
+  }
+]
