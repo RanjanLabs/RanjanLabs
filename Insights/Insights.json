@@ -1,0 +1,35 @@
+[
+  {
+    "id": "NEWS-001",
+    "title": "The End of Localhost: The Cloud Dev Imperative",
+    "date": "2024.11.24",
+    "category": "Opinion",
+    "impactLevel": "High",
+    "author": "RanjanLabs Editorial",
+    "summary": "Why cloud development environments are inevitably replacing the local machine, and what that means for global latency.",
+    "fileName": "end-of-localhost.md",
+    "searchableContent": "cloud development environments remote latency workflow"
+  },
+  {
+    "id": "NEWS-002",
+    "title": "GPT-5 Architecture Leaks: The Sparse MoE Shift",
+    "date": "2024.11.20",
+    "category": "Deep Dive",
+    "impactLevel": "Strategic",
+    "author": "Ranjan Labs Research",
+    "summary": "Analyzing the rumored Sparse Mixture-of-Experts changes and the shift towards massive, autonomous agents.",
+    "fileName": "gpt5-leaks.md",
+    "searchableContent": "gpt-5 architecture moe llm autonomous agents"
+  },
+  {
+    "id": "NEWS-003",
+    "title": "Rust vs. C++ in 2025: Safety as a Liability",
+    "date": "2024.11.15",
+    "category": "Industry Report",
+    "impactLevel": "Critical",
+    "author": "Security & Ops Team",
+    "summary": "With global mandates for memory safety, is legacy C++ code finally becoming a liability in high-stakes projects?",
+    "fileName": "rust-cpp-2025.md",
+    "searchableContent": "rust c++ memory safety security liability industry trends"
+  }
+]
