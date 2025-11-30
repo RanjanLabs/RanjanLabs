@@ -1,0 +1,35 @@
+[
+  {
+    "id": "MKT-001",
+    "title": "Neon Genesis UI Kit",
+    "category": "Web Template",
+    "description": "A complete dashboard UI kit featuring glassmorphism components, React charts, and dark mode presets.",
+    "link": "https://example.com/neon-genesis",
+    "stack": "React, TypeScript, Tailwind",
+    "price": "$149",
+    "releaseDate": "2024.11.01",
+    "searchableContent": "neon genesis ui kit dashboard components react tailwind premium"
+  },
+  {
+    "id": "MKT-002",
+    "title": "Quantum GPT-4 Wrapper",
+    "category": "AI Model",
+    "description": "An optimized Python wrapper for GPT-4 streaming responses with built-in context management and vector database memory integration.",
+    "link": "https://github.com/example/quantum-gpt",
+    "stack": "Python, FastAPI, VectorDB",
+    "price": "Open Source",
+    "releaseDate": "2024.10.15",
+    "searchableContent": "quantum gpt-4 wrapper python api streaming vector database integration"
+  },
+  {
+    "id": "MKT-003",
+    "title": "Cyberpunk Portfolio",
+    "category": "Web Template",
+    "description": "A 3D interactive portfolio template using Three.js. Features glitch effects, custom shaders, and immersive scroll animations.",
+    "link": "https://example.com/cyber-portfolio",
+    "stack": "HTML, JS, Three.js",
+    "price": "Free",
+    "releaseDate": "2024.09.28",
+    "searchableContent": "cyberpunk portfolio 3d interactive three.js template free"
+  }
+]
