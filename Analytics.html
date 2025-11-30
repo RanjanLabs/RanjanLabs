@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Analytics | RanjanLabs</title>
+    <link rel="stylesheet" type="text/css" href="index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Inline theme override for "Data/Dashboard" vibe -->
+    <style>
+        .aurora-blob.blob-1 { background: #14b8a6; } /* Teal */
+        .aurora-blob.blob-2 { background: #0ea5e9; } /* Sky Blue */
+        .aurora-blob.blob-3 { background: #64748b; } /* Slate */
+        .status-indicator { background: rgba(20, 184, 166, 0.1); border-color: rgba(20, 184, 166, 0.2); }
+        .status-text { color: #2dd4bf; }
+        
+        /* KPI Card Styling */
+        .kpi-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .kpi-label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+        .kpi-value { font-size: 2rem; font-weight: 700; color: #f0f9ff; font-family: var(--font-mono); }
+        .kpi-trend { font-size: 0.8rem; color: #34d399; display: flex; align-items: center; gap: 0.25rem; }
+    </style>
+</head>
+<body>
+    <div class="noise-overlay"></div>
+    <div class="aurora-blob blob-1"></div>
+    <div class="aurora-blob blob-2"></div>
+    <div class="aurora-blob blob-3"></div>
+
+    <div class="app-layout" style="grid-template-columns: 1fr; grid-template-areas: 'header' 'main';">
+        <header>
+            <div class="header-left">
+                <button id="sidebarToggleButton" class="icon-btn menu-btn" style="display: none;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                </button>
+                <a href="index.html" class="brand-logo">
+                    <div class="logo-mark">RL</div>
+                    <span class="gradient-text"><h1>RanjanLabs</h1></span>
+                </a>
+            </div>
+            
+            <nav class="top-nav" id="topNav">
+                <ul>
+                    <li><a href="MatrixLibrary.html">MatrixLibrary</a></li>
+                    <li><a href="Studio.html">Studio</a></li>
+                    <li><a href="Insights.html">Insights</a></li>
+                </ul>
+            </nav>
+
+            <div class="header-right">
+                <div class="status-indicator">
+                    <span class="status-dot"></span>
+                    <span class="status-text">Monitoring Active</span>
+                </div>
+            </div>
+        </header>
+
+        <main id="mainContent">
+            <div class="content-wrapper">
+                <section class="hero-section" id="heroHeader">
+                    <div class="hero-badge">System Metrics</div>
+                    <h1 class="hero-title">Global <span class="gradient-text">Analytics</span></h1>
+                    <p class="hero-subtitle">Real-time telemetry, user growth projections, and operational datasets.</p>
+                    
+                    <div class="search-command-center" style="max-width: 650px; margin: 2rem auto;">
+                        <div class="search-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                        </div>
+                        <input type="text" id="statSearchInput" placeholder="Filter reports..." autocomplete="off" 
+                               style="flex: 1; background: transparent; border: none; color: var(--text-main); font-size: 1.1rem; padding: 1rem 0; font-family: var(--font-sans); outline: none;"/>
+                        <div class="shortcut-hint">CTRL K</div>
+                    </div>
+                </section>
+
+                
+                <section id="kpiSection" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 3rem; max-width: 1000px; margin-left: auto; margin-right: auto;">
+                    <div class="kpi-card">
+                        <span class="kpi-label">Total Visits</span>
+                        <span class="kpi-value">84.2K</span>
+                        <span class="kpi-trend">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+                            +12.5%
+                        </span>
+                    </div>
+                    <div class="kpi-card">
+                        <span class="kpi-label">API Requests</span>
+                        <span class="kpi-value">1.2M</span>
+                        <span class="kpi-trend">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+                            +5.4%
+                        </span>
+                    </div>
+                    <div class="kpi-card">
+                        <span class="kpi-label">System Uptime</span>
+                        <span class="kpi-value">99.9%</span>
+                        <span class="status-text" style="font-size: 0.8rem; color: #2dd4bf;">Stable</span>
+                    </div>
+                    <div class="kpi-card">
+                        <span class="kpi-label">Active Nodes</span>
+                        <span class="kpi-value">42</span>
+                        <span class="kpi-trend" style="color: #94a3b8;">
+                            <span>Global Region</span>
+                        </span>
+                    </div>
+                </section>
+
+                <section id="reportGridSection" class="grid-section">
+                    <div class="section-header" style="display: flex; justify-content: space-between; align-items: center;">
+                        <h2 id="gridTitle">Detailed Reports</h2>
+                        <span class="status-text" style="opacity: 0.6; font-family: var(--font-mono);">DATA ARCHIVE</span>
+                    </div>
+                    <ul id="reportGrid" class="bento-grid">
+                        <!-- Report Cards injected here -->
+                    </ul>
+                </section>
+
+                <section id="reportViewer" class="viewer-modal" style="margin-top: 0; min-height: 80vh;">
+                    <!-- Report content injected here -->
+                </section>
+            </div>
+            
+            <footer>
+                <div class="footer-content">
+                    <p>© <span id="year"></span> RanjanLabs Ecosystem.</p>
+                    <div class="footer-links">
+                        <a href="#">Privacy</a>
+                        <a href="#">Terms</a>
+                        <a href="#">Git</a>
+                    </div>
+                </div>
+            </footer>
+        </main>
+    </div>
+    
+    <button id="scrollToTopBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+    </button>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked@4.0.10/marked.min.js"></script> 
+    <script src="Analytics.js"></script>
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>

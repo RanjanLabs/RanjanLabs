@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Neural Models | RanjanLabs</title>
+    <link rel="stylesheet" type="text/css" href="index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        .aurora-blob.blob-1 { background: #3b82f6; } /* Electric Blue */
+        .aurora-blob.blob-2 { background: #8b5cf6; } /* Violet */
+        .aurora-blob.blob-3 { background: #06b6d4; } /* Cyan */
+        .status-indicator { background: rgba(59, 130, 246, 0.1); border-color: rgba(59, 130, 246, 0.2); }
+        .status-text { color: #60a5fa; }
+    </style>
+</head>
+<body>
+    <div class="noise-overlay"></div>
+    <div class="aurora-blob blob-1"></div>
+    <div class="aurora-blob blob-2"></div>
+    <div class="aurora-blob blob-3"></div>
+
+    <div class="app-layout" style="grid-template-columns: 1fr; grid-template-areas: 'header' 'main';">
+        <header>
+            <div class="header-left">
+                <button id="sidebarToggleButton" class="icon-btn menu-btn" style="display: none;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                </button>
+                <a href="index.html" class="brand-logo">
+                    <div class="logo-mark">RL</div>
+                    <span class="gradient-text"><h1>RanjanLabs</h1></span>
+                </a>
+            </div>
+            
+            <nav class="top-nav" id="topNav">
+                <ul>
+                    <li><a href="MatrixLibrary.html">MatrixLibrary</a></li>
+                    <li><a href="Studio.html">Studio</a></li>
+                    <li><a href="Insights.html">Insights</a></li>
+                </ul>
+            </nav>
+
+            <div class="header-right">
+                <div class="status-indicator">
+                    <span class="status-dot"></span>
+                    <span class="status-text">AI Core Online</span>
+                </div>
+            </div>
+        </header>
+
+        <main id="mainContent">
+            <div class="content-wrapper">
+                <section class="hero-section" id="heroHeader">
+                    <div class="hero-badge">Model Registry</div>
+                    <h1 class="hero-title">Neural <span class="gradient-text">Intelligence</span></h1>
+                    <p class="hero-subtitle">Explore our fine-tuned models, architectural weights, and inference engines.</p>
+                    
+                    
+                    <div style="position: absolute; top: 15%; left: 50%; transform: translateX(-50%); width: 80%; height: 300px; opacity: 0.1; pointer-events: none; z-index: -1;">
+                        <svg width="100%" height="100%" viewBox="0 0 800 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="400" cy="150" r="4" fill="white"/>
+                            <circle cx="300" cy="100" r="3" fill="white"/>
+                            <circle cx="500" cy="100" r="3" fill="white"/>
+                            <circle cx="200" cy="180" r="3" fill="white"/>
+                            <circle cx="600" cy="180" r="3" fill="white"/>
+                            <line x1="400" y1="150" x2="300" y2="100" stroke="white" stroke-width="1"/>
+                            <line x1="400" y1="150" x2="500" y2="100" stroke="white" stroke-width="1"/>
+                            <line x1="300" y1="100" x2="200" y2="180" stroke="white" stroke-width="1"/>
+                            <line x1="500" y1="100" x2="600" y2="180" stroke="white" stroke-width="1"/>
+                        </svg>
+                    </div>
+
+                    <div class="search-command-center" style="max-width: 650px; margin: 2rem auto;">
+                        <div class="search-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                        </div>
+                        <input type="text" id="aiSearchInput" placeholder="Filter by architecture or task..." autocomplete="off" 
+                               style="flex: 1; background: transparent; border: none; color: var(--text-main); font-size: 1.1rem; padding: 1rem 0; font-family: var(--font-sans); outline: none;"/>
+                        <div class="shortcut-hint">CTRL K</div>
+                    </div>
+                </section>
+
+                <section id="modelGridSection" class="grid-section">
+                    <div class="section-header" style="display: flex; justify-content: space-between; align-items: center;">
+                        <h2 id="gridTitle">Deployed Models</h2>
+                        <span class="status-text" style="opacity: 0.6; font-family: var(--font-mono);">SYSTEM READY</span>
+                    </div>
+                    <ul id="modelGrid" class="bento-grid" style="grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));">
+                        
+                    </ul>
+                </section>
+
+                <section id="modelViewer" class="viewer-modal" style="margin-top: 0; min-height: 80vh;">
+                    
+                </section>
+            </div>
+            
+            <footer>
+                <div class="footer-content">
+                    <p>© <span id="year"></span> RanjanLabs Ecosystem.</p>
+                    <div class="footer-links">
+                        <a href="#">Privacy</a>
+                        <a href="#">Terms</a>
+                        <a href="#">Git</a>
+                    </div>
+                </div>
+            </footer>
+        </main>
+    </div>
+    
+    <button id="scrollToTopBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+    </button>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked@4.0.10/marked.min.js"></script> 
+    <script src="AI.js"></script>
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
