@@ -6,8 +6,8 @@ const heroHeader = document.getElementById('heroHeader');
 const scrollToTopButton = document.getElementById("scrollToTopBtn");
 const mainContentElement = document.getElementById('mainContent');
 
-const APPS_JSON_PATH = './AppStore/index.json';
-const APPS_BASE_PATH = './AppStore/';
+const APPS_JSON_PATH = './AppEcology/index.json';
+const APPS_BASE_PATH = './AppEcology/';
 
 let allApps = [];
 let appContentCache = {};
