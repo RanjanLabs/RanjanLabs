@@ -6,7 +6,7 @@ const heroHeader = document.getElementById('heroHeader');
 const scrollToTopButton = document.getElementById("scrollToTopBtn");
 const mainContentElement = document.getElementById('mainContent');
 
-const MARKET_JSON_PATH = './CodeMarket/index.json';
+const MARKET_JSON_PATH = './MatrixLibrary/index.json';
 
 let allAssets = [];
 
