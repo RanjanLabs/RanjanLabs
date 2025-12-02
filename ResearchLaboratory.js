@@ -6,8 +6,8 @@ const heroHeader = document.getElementById('heroHeader');
 const scrollToTopButton = document.getElementById("scrollToTopBtn");
 const mainContentElement = document.getElementById('mainContent');
 
-const DOCS_JSON_PATH = './KnowledgeBase/index.json';
-const DOCS_BASE_PATH = './KnowledgeBase/';
+const DOCS_JSON_PATH = './ResearchLaboratory/index.json';
+const DOCS_BASE_PATH = './ResearchLaboratory/';
 
 let allDocs = [];
 let docContentCache = {};
