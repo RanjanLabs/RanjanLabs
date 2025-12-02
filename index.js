@@ -10,8 +10,8 @@ const recentPostsList = document.getElementById('recent-posts');
 const scrollToTopButton = document.getElementById("scrollToTopBtn");
 
 
-const POSTS_JSON_PATH = './content/index.json';
-const CONTENT_BASE_PATH = './content/';
+const POSTS_JSON_PATH = './Content/index.json';
+const CONTENT_BASE_PATH = './Content/';
 const RECENT_POST_FOLDER = 'blog'; 
 
 const blogContentCache = {};
