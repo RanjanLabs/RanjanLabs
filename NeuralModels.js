@@ -6,8 +6,8 @@ const heroHeader = document.getElementById('heroHeader');
 const scrollToTopButton = document.getElementById("scrollToTopBtn");
 const mainContentElement = document.getElementById('mainContent');
 
-const MODELS_JSON_PATH = './AI/models.json';
-const MODELS_BASE_PATH = './AI/';
+const MODELS_JSON_PATH = './NeuralModels/index.json';
+const MODELS_BASE_PATH = './NeuralModels/';
 
 let allModels = [];
 let modelContentCache = {};
