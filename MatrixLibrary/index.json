@@ -1,35 +1,46 @@
 [
   {
-    "id": "MKT-001",
-    "title": "Neon Genesis UI Kit",
-    "category": "Web Template",
-    "description": "A complete dashboard UI kit featuring glassmorphism components, React charts, and dark mode presets.",
-    "link": "https://example.com/neon-genesis",
-    "stack": "React, TypeScript, Tailwind",
-    "price": "$149",
-    "releaseDate": "2024.11.01",
-    "searchableContent": "neon genesis ui kit dashboard components react tailwind premium"
+    "id": "RES-001",
+    "title": "Hugging Face Hub",
+    "category": "AI Repository",
+    "description": "The platform where the machine learning community collaborates on models, datasets, and applications.",
+    "url": "https://huggingface.co",
+    "access": "Free",
+    "tags": "AI, ML, Datasets, Transformers",
+    "lastChecked": "2024.11.28",
+    "searchableContent": "hugging face ai models machine learning open source"
   },
   {
-    "id": "MKT-002",
-    "title": "Quantum GPT-4 Wrapper",
-    "category": "AI Model",
-    "description": "An optimized Python wrapper for GPT-4 streaming responses with built-in context management and vector database memory integration.",
-    "link": "https://github.com/example/quantum-gpt",
-    "stack": "Python, FastAPI, VectorDB",
-    "price": "Open Source",
-    "releaseDate": "2024.10.15",
-    "searchableContent": "quantum gpt-4 wrapper python api streaming vector database integration"
+    "id": "RES-002",
+    "title": "Perplexity AI",
+    "category": "AI Search Engine",
+    "description": "An AI-powered answer engine that provides accurate, trusted, and real-time answers to your questions.",
+    "url": "https://www.perplexity.ai",
+    "access": "Freemium",
+    "tags": "Search, LLM, Research",
+    "lastChecked": "2024.11.25",
+    "searchableContent": "perplexity ai search research assistant answer engine"
   },
   {
-    "id": "MKT-003",
-    "title": "Cyberpunk Portfolio",
-    "category": "Web Template",
-    "description": "A 3D interactive portfolio template using Three.js. Features glitch effects, custom shaders, and immersive scroll animations.",
-    "link": "https://example.com/cyber-portfolio",
-    "stack": "HTML, JS, Three.js",
-    "price": "Free",
-    "releaseDate": "2024.09.28",
-    "searchableContent": "cyberpunk portfolio 3d interactive three.js template free"
+    "id": "RES-003",
+    "title": "Replit",
+    "category": "Cloud IDE",
+    "description": "Collaborative browser-based IDE that lets you build, test, and deploy software directly from your browser.",
+    "url": "https://replit.com",
+    "access": "Freemium",
+    "tags": "Coding, IDE, Cloud, Deployment",
+    "lastChecked": "2024.11.20",
+    "searchableContent": "replit ide coding cloud development deploy"
+  },
+  {
+    "id": "RES-004",
+    "title": "V0.dev",
+    "category": "Generative UI",
+    "description": "Generate UI components with simple text prompts. Copy and paste into your React projects.",
+    "url": "https://v0.dev",
+    "access": "Beta",
+    "tags": "UI, React, Tailwind, Generative AI",
+    "lastChecked": "2024.12.01",
+    "searchableContent": "v0 vercel generative ui react components tailwind"
   }
 ]
