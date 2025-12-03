@@ -1,35 +1,52 @@
 [
   {
-    "id": "MKT-001",
-    "title": "Neon Genesis UI Kit",
-    "category": "Web Template",
-    "description": "A complete dashboard UI kit featuring glassmorphism components, React charts, and dark mode presets.",
-    "link": "https://example.com/neon-genesis",
-    "stack": "React, TypeScript, Tailwind",
-    "price": "$149",
-    "releaseDate": "2024.11.01",
-    "searchableContent": "neon genesis ui kit dashboard components react tailwind premium"
+    "id": "KB-001",
+    "title": "System Architecture",
+    "category": "Core Protocols",
+    "date": "2024.11.20",
+    "classification": "Level 3 Access",
+    "summary": "Detailed specifications for our distributed edge deployment and microservice architecture.",
+    "fileName": "architecture.md",
+    "searchableContent": "system architecture deployment microservice protocols"
   },
   {
-    "id": "MKT-002",
-    "title": "Quantum GPT-4 Wrapper",
-    "category": "AI Model",
-    "description": "An optimized Python wrapper for GPT-4 streaming responses with built-in context management and vector database memory integration.",
-    "link": "https://github.com/example/quantum-gpt",
-    "stack": "Python, FastAPI, VectorDB",
-    "price": "Open Source",
-    "releaseDate": "2024.10.15",
-    "searchableContent": "quantum gpt-4 wrapper python api streaming vector database integration"
+    "id": "KB-002",
+    "title": "Neural Interface Design",
+    "category": "Core Protocols",
+    "date": "2024.11.15",
+    "classification": "Public Release",
+    "summary": "Design language, component hierarchy, and UX standards for all client-facing applications.",
+    "fileName": "design-system.md",
+    "searchableContent": "design system ux ui component hierarchy"
   },
   {
-    "id": "MKT-003",
-    "title": "Cyberpunk Portfolio",
-    "category": "Web Template",
-    "description": "A 3D interactive portfolio template using Three.js. Features glitch effects, custom shaders, and immersive scroll animations.",
-    "link": "https://example.com/cyber-portfolio",
-    "stack": "HTML, JS, Three.js",
-    "price": "Free",
-    "releaseDate": "2024.09.28",
-    "searchableContent": "cyberpunk portfolio 3d interactive three.js template free"
+    "id": "API-101",
+    "title": "Authentication Gateways",
+    "category": "Signal Processing",
+    "date": "2024.10.01",
+    "classification": "Confidential",
+    "summary": "API reference and implementation guidelines for external token validation and security layers.",
+    "fileName": "auth-api.md",
+    "searchableContent": "authentication api reference token security"
+  },
+  {
+    "id": "API-102",
+    "title": "Data Endpoints",
+    "category": "Signal Processing",
+    "date": "2024.10.05",
+    "classification": "Internal",
+    "summary": "Full catalog of available REST and GraphQL endpoints for data retrieval.",
+    "fileName": "endpoints.md",
+    "searchableContent": "api endpoints rest graphql data"
+  },
+  {
+    "id": "OPS-05",
+    "title": "Contribution Directives",
+    "category": "Field Operations",
+    "date": "2024.09.25",
+    "classification": "Level 2 Access",
+    "summary": "Standard operating procedures (SOPs) for data contribution, review, and merging protocols.",
+    "fileName": "contributing.md",
+    "searchableContent": "contribution SOP field operations merging guidelines"
   }
 ]
