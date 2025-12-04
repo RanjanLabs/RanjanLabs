@@ -99,6 +99,12 @@ const loadAppDetails = async (app) => {
     heroHeader.style.display = 'none';
     appViewer.classList.remove('visible');
     mainContentElement.scrollTo({ top: 0, behavior: "auto" });
+    
+    // FIX: Define statusColor locally for use in headerHTML
+    let statusColor = '#94a3b8';
+    if (app.status === 'GA') statusColor = '#34d399';
+    else if (app.status === 'Beta') statusColor = '#facc15';
+    else if (app.status === 'Experimental') statusColor = '#f472b6';
 
     let actionButtonHtml = '';
     if (app.apkLink) {
@@ -199,7 +205,8 @@ appSearchInput.addEventListener('input', (e) => {
 
     const filtered = allApps.filter(app => 
         app.title.toLowerCase().includes(term) || 
-        app.description.toLowerCase().includes(term)
+        app.description.toLowerCase().includes(term) ||
+        app.tagline.toLowerCase().includes(term)
     );
     renderAppGrid(filtered);
 });
