@@ -6,9 +6,9 @@ const heroHeader = document.getElementById('heroHeader');
 const scrollToTopButton = document.getElementById("scrollToTopBtn");
 const mainContentElement = document.getElementById('mainContent');
 
-// FIX: Standardized path to index.json
-const MODELS_JSON_PATH = './AI/index.json';
-const MODELS_BASE_PATH = './AI/';
+
+const MODELS_JSON_PATH = './NeuralModels/index.json';
+const MODELS_BASE_PATH = './NeuralModels/';
 
 let allModels = [];
 let modelContentCache = {};
