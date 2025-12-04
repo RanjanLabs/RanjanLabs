@@ -105,7 +105,7 @@ const loadDocument = async (doc) => {
                 RETURN TO GRID
             </button>
             <div style="border-left: 4px solid var(--color-secondary); padding-left: 1.5rem;">
-                <span style="font-family: var(--font-mono); color: var(--color-secondary); font-size: 0.8rem; text-transform: uppercase;">
+                <span style="font-family: var(--font-mono); color: var(--color-secondary); font-size: 0.8rem; text-transform: uppercase;">// CLASSIFICATION: ${doc.classification} //</span>
                 <h1 style="font-size: 2.8rem; margin-top: 0.5rem; margin-bottom: 1rem; line-height: 1.1;">${doc.title}</h1>
                 <p style="font-family: var(--font-mono); color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0;">PROTOCOL: ${doc.id} | RELEASED: ${doc.date}</p>
             </div>
@@ -173,7 +173,9 @@ docSearchInput.addEventListener('input', (e) => {
 
     const filtered = allDocs.filter(doc => 
         doc.title.toLowerCase().includes(term) || 
-        doc.category.toLowerCase().includes(term)
+        doc.category.toLowerCase().includes(term) ||
+        doc.summary.toLowerCase().includes(term) ||
+        doc.classification.toLowerCase().includes(term)
     );
     renderDocGrid(filtered);
 });
