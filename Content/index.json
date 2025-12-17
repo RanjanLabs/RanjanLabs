@@ -41,12 +41,12 @@
   },
   {
     "id": "tech-001",
-    "title": "A Look at Rust's Memory Safety",
+    "title": "Learn HTML",
     "date": "2024.10.30",
     "summary": "An analysis of why the language is becoming mandatory for critical systems and how it improves security.",
-    "fileName": "rust-safety.md",
-    "fileType": "md",
+    "fileName": "learn-html.html",
+    "fileType": "html",
     "folder": "techskills",
-    "searchableContent": "rust programming memory safety performance tutorial"
+    "searchableContent": " learn html tutorial"
   }
 ]
