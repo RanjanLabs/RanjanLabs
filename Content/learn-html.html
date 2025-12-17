@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic HTML Tag Explorer</title>
+    <style>
+        /* Basic Styling for the Learning Module */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #0056b3;
+            border-bottom: 2px solid #ccc;
+            padding-bottom: 10px;
+        }
+
+        .tag-info {
+            margin-bottom: 25px;
+            padding: 15px;
+            background-color: #e9f7ff;
+            border-left: 5px solid #007bff;
+            border-radius: 4px;
+        }
+
+        .tag-info strong {
+            color: #0056b3;
+        }
+
+        .interactive-area {
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            background-color: #fff8e1;
+        }
+
+        textarea {
+            width: 98%;
+            min-height: 50px;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 10px 15px;
+            margin-right: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.2s;
+        }
+
+        #output {
+            margin-top: 20px;
+            padding: 15px;
+            border: 2px dashed #007bff;
+            min-height: 50px;
+            background-color: white;
+        }
+
+        /* Specific Button Colors */
+        #h1-btn { background-color: #28a745; color: white; }
+        #h1-btn:hover { background-color: #218838; }
+
+        #p-btn { background-color: #ffc107; color: #333; }
+        #p-btn:hover { background-color: #e0a800; }
+
+        #strong-btn { background-color: #dc3545; color: white; }
+        #strong-btn:hover { background-color: #c82333; }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <h1>📚 HTML Tag Explorer</h1>
+
+        <p>This simple tool will help you understand how different **HTML tags** format your content. Type some text below and click the buttons to see the result!</p>
+
+        <h2>Common Tags Explained</h2>
+
+        <div class="tag-info">
+            <strong>&lt;h1&gt; to &lt;h6&gt; (Heading)</strong>: Used for titles and section headings. &lt;h1&gt; is the most important (largest), and &lt;h6&gt; is the least. Headings are crucial for structure.
+        </div>
+        <div class="tag-info">
+            <strong>&lt;p&gt; (Paragraph)</strong>: Used for a block of standard text or paragraph. Browsers automatically add some space above and below it.
+        </div>
+        <div class="tag-info">
+            <strong>&lt;strong&gt; (Strong Importance)</strong>: Used to indicate that its content is of strong importance, seriousness, or urgency. It is typically rendered as **bold text**.
+        </div>
+
+        <h2>Interactive Sandbox</h2>
+
+        <div class="interactive-area">
+            <label for="text-input">**Enter your text here:**</label>
+            <textarea id="text-input" placeholder="Type a sentence or two..."></textarea>
+
+            <button id="h1-btn">Wrap in &lt;h1&gt;</button>
+            <button id="p-btn">Wrap in &lt;p&gt;</button>
+            <button id="strong-btn">Wrap in &lt;strong&gt;</button>
+
+            <h3>Output Preview:</h3>
+            <div id="output">
+                *Your formatted text will appear here.*
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // JavaScript for Interactivity
+        const textInput = document.getElementById('text-input');
+        const outputDiv = document.getElementById('output');
+        const h1Btn = document.getElementById('h1-btn');
+        const pBtn = document.getElementById('p-btn');
+        const strongBtn = document.getElementById('strong-btn');
+
+        // Function to update the output based on the tag
+        function applyTag(tag) {
+            const text = textInput.value.trim();
+            if (text === "") {
+                outputDiv.innerHTML = "Please enter some text first!";
+                return;
+            }
+
+            let htmlContent = '';
+
+            if (tag === 'strong') {
+                 // For <strong>, we wrap the text inside a paragraph for better display/structure
+                htmlContent = `<p>This is a &lt;strong&gt; example: <${tag}>${text}</${tag}></p>`;
+            } else {
+                // For block-level elements like <h1> and <p>, we just use the tag
+                htmlContent = `<${tag}>${text}</${tag}>`;
+            }
+
+            // Set the HTML content of the output div
+            outputDiv.innerHTML = htmlContent;
+        }
+
+        // Add event listeners to the buttons
+        h1Btn.addEventListener('click', () => applyTag('h1'));
+        pBtn.addEventListener('click', () => applyTag('p'));
+        strongBtn.addEventListener('click', () => applyTag('strong'));
+    </script>
+
+</body>
+</html>
