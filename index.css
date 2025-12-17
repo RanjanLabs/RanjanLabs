@@ -583,22 +583,3 @@ footer { margin-top: auto; border-top: 1px solid var(--border-subtle); padding: 
 
 
 
-html, body {
-    max-width: 100%;
-    overflow-x: hidden;
-}
-
-.app-layout {
-    max-width: 100vw;
-    overflow-x: hidden;
-}
-
-.hero-title {
-    font-size: clamp(2.2rem, 6vw, 4.5rem);
-}
-
-@media (max-width: 768px) {
-    .aurora-blob {
-        display: none;
-    }
-}
