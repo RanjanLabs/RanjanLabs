@@ -151,7 +151,7 @@ const displayPostLinks = (postsToShow) => {
     recentPostsList.innerHTML = '';
     
     if (!postsToShow || postsToShow.length === 0) {
-        recentPostsList.innerHTML = '<li style="background:none; border:none; color:var(--text-muted); padding:1rem;">// No signals found in this sector.</li>';
+        recentPostsList.innerHTML = '<li style="background:none; border:none; color:var(--text-muted); padding:1rem;">No results. Discover something else.</li>';
         return;
     }
 
@@ -169,7 +169,7 @@ const displayPostLinks = (postsToShow) => {
                 <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; flex: 1;">
                     ${post.summary || 'Click to read full article...'}
                 </p>
-                <div style="margin-top: 1rem; color: var(--color-secondary); font-weight: 600;">Read More →</div>
+                <div style="margin-top: 1rem; color: var(--color-secondary); font-weight: 600;">Read Full →</div>
             </a>
         `;
         
@@ -273,4 +273,5 @@ const loadBlogPostIntoViewer = async (postMetadata) => {
              blogViewerElement.classList.add('visible');
         }
     }
+
 })();
