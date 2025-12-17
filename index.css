@@ -42,9 +42,8 @@ body {
     background-color: var(--bg-void);
     color: var(--text-main);
     font-family: var(--font-sans);
-    min-height: 100dvh;
-    overflow-x: hidden;
-    overflow-y: auto;
+    height: 100vh;
+    overflow: hidden; 
 }
 
 
