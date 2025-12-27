@@ -115,7 +115,17 @@
 
         .hero { margin-bottom: 3.5rem; padding-top: 1.5rem; }
         .badge { font-family: var(--font-mono); font-size: 0.7rem; color: var(--accent); background: var(--accent-glow); padding: 5px 12px; border-radius: 20px; margin-bottom: 1.5rem; display: inline-block; border: 1px solid var(--border-active); font-weight: 600; }
-        h1 { font-size: clamp(2.5rem, 9vw, 3.75rem); font-weight: 800; letter-spacing: -2px; line-height: 1; margin-bottom: 1.5rem; color: var(--text-main); }
+        
+        h1 { 
+            font-size: clamp(1.6rem, 7.5vw, 3.5rem); 
+            font-weight: 800; 
+            letter-spacing: -1.5px; 
+            line-height: 1.1; 
+            margin-bottom: 1.5rem; 
+            color: var(--text-main); 
+            white-space: nowrap;
+        }
+
         .accent-text { color: var(--accent); }
         .subtitle { color: var(--text-dim); font-size: 1.1rem; max-width: 520px; line-height: 1.6; }
 
@@ -155,7 +165,7 @@
             <div class="sidebar-header">
                 <!-- PNG Logo Wrapper -->
                 <a href="index.html" class="brand">
-                    <img src="logo.jpg" alt="RanjanLabs" class="main-logo">
+                    <img src="" alt="RanjanLabs Logo" class="main-logo">
                 </a>
                 <button class="close-sidebar" onclick="window.toggleSidebar()">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="18" height="18"><path d="M18 6L6 18M6 6l12 12"></path></svg>
