@@ -1,5 +1,5 @@
-const TOOLS_JSON_PATH = './Content/tools.json';
-const TOOLS_CONTENT_BASE = './Content/tools/';
+const TOOLS_JSON_PATH = './ToolLab/index.json';
+const TOOLS_CONTENT_BASE = './ToolLab';
 
 let allTools = [];
 let displayedCount = 0;
@@ -138,4 +138,5 @@ window.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
 });
