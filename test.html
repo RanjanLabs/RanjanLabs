@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>RanjanLabs | Digital Frontier</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-base: #f8f9fa;      
+            --bg-panel: #ffffff;
+            --bg-elevated: #f1f3f5;
+            --border-subtle: rgba(0, 0, 0, 0.05);
+            --border-active: rgba(0, 122, 255, 0.2);
+            --text-main: #1a1b1e;    
+            --text-dim: #495057;     
+            --text-muted: #adb5bd;   
+            --accent: #007aff;       
+            --accent-glow: rgba(0, 122, 255, 0.08);
+            --sidebar-w: 260px;
+            --header-h: 60px;
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.5;
+            height: 100dvh;
+            overflow: hidden;
+            font-size: 15px;
+        }
+
+        .app-shell { display: flex; height: 100dvh; width: 100vw; position: relative; }
+
+        .sidebar {
+            position: fixed;
+            left: 0; top: 0; bottom: 0;
+            width: var(--sidebar-w);
+            background: var(--bg-panel);
+            border-right: 1px solid var(--border-subtle);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            transform: translateX(-100%);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .sidebar.active { transform: translateX(0); box-shadow: 20px 0 50px rgba(0,0,0,0.05); }
+
+        .sidebar-header {
+            height: var(--header-h);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1.25rem;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        /* Logo Styling */
+        .brand { 
+            display: flex; 
+            align-items: center; 
+            text-decoration: none; 
+            height: 100%;
+            max-width: 180px;
+        }
+
+        .main-logo {
+            max-height: 32px; /* Adjust based on your logo height */
+            width: auto;
+            object-fit: contain;
+            display: block;
+        }
+
+        .close-sidebar { background: var(--bg-elevated); border: none; color: var(--text-dim); width: 32px; height: 32px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; cursor: pointer; }
+
+        .nav-list { flex: 1; padding: 1.5rem 0.75rem; overflow-y: auto; }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: var(--radius-md);
+            color: var(--text-dim);
+            text-decoration: none;
+            font-size: 0.95rem;
+            margin-bottom: 4px;
+            transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid transparent;
+        }
+        .nav-item:hover { background: var(--bg-elevated); color: var(--text-main); }
+        .nav-item.active { background: var(--accent-glow); color: var(--accent); border-color: var(--border-active); font-weight: 600; }
+        .nav-item svg { width: 18px; height: 18px; }
+
+        .main-container { flex: 1; display: flex; flex-direction: column; min-width: 0; position: relative; background-color: var(--bg-base); }
+
+        header {
+            height: var(--header-h); background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-subtle); padding: 0 1rem; display: flex; align-items: center; justify-content: space-between; z-index: 10;
+        }
+
+        .menu-trigger { background: var(--bg-panel); border: 1px solid var(--border-subtle); color: var(--text-main); width: 42px; height: 42px; border-radius: var(--radius-md); cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+
+        .viewport { flex: 1; overflow-y: auto; padding: 1.5rem; scroll-behavior: smooth; position: relative; }
+        .content-wrap { max-width: 800px; margin: 0 auto; padding-bottom: 4rem; }
+
+        .hero { margin-bottom: 3.5rem; padding-top: 1.5rem; }
+        .badge { font-family: var(--font-mono); font-size: 0.7rem; color: var(--accent); background: var(--accent-glow); padding: 5px 12px; border-radius: 20px; margin-bottom: 1.5rem; display: inline-block; border: 1px solid var(--border-active); font-weight: 600; }
+        h1 { font-size: clamp(2.5rem, 9vw, 3.75rem); font-weight: 800; letter-spacing: -2px; line-height: 1; margin-bottom: 1.5rem; color: var(--text-main); }
+        .accent-text { color: var(--accent); }
+        .subtitle { color: var(--text-dim); font-size: 1.1rem; max-width: 520px; line-height: 1.6; }
+
+        .search-bar { margin-top: 2.5rem; position: relative; }
+        .search-bar input { width: 100%; background: var(--bg-panel); border: 1px solid var(--border-subtle); color: var(--text-main); padding: 16px 20px 16px 48px; border-radius: var(--radius-lg); font-size: 1rem; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
+        .search-bar input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-glow); }
+        .search-bar svg { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); width: 20px; color: var(--text-muted); }
+
+        .section-label { font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 12px; font-weight: 600; }
+        .section-label::after { content: ""; height: 1px; flex: 1; background: var(--border-subtle); }
+
+        .bento { display: grid; grid-template-columns: 1fr; gap: 20px; }
+        .item-card { background: var(--bg-panel); border: 1px solid var(--border-subtle); padding: 1.75rem; border-radius: var(--radius-lg); transition: 0.3s; cursor: pointer; box-shadow: 0 2px 12px rgba(0,0,0,0.02); text-decoration: none; display: block; }
+        .item-card:hover { border-color: var(--accent); transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0,0,0,0.06); }
+        .card-meta { font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent); margin-bottom: 1rem; display: block; font-weight: 700; }
+        .card-title { font-weight: 700; font-size: 1.25rem; margin-bottom: 0.75rem; color: var(--text-main); }
+        .card-body { font-size: 0.95rem; color: var(--text-dim); line-height: 1.6; }
+
+        #scrollTopBtn { position: fixed; bottom: 2rem; right: 2rem; width: 50px; height: 50px; background: var(--bg-panel); border: 1px solid var(--border-subtle); color: var(--text-main); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 100; opacity: 0; visibility: hidden; transform: translateY(10px); transition: 0.3s; box-shadow: 0 10px 30px rgba(0,0,0,0.1); backdrop-filter: blur(10px); }
+        #scrollTopBtn.visible { opacity: 1; visibility: visible; transform: translateY(0); }
+
+        .overlay { visibility: hidden; opacity: 0; position: fixed; inset: 0; background: rgba(0,0,0,0.1); backdrop-filter: blur(4px); z-index: 999; transition: 0.3s; }
+        .overlay.active { visibility: visible; opacity: 1; }
+
+        @media (min-width: 1024px) {
+            .sidebar { transform: translateX(0); position: relative; width: var(--sidebar-w); box-shadow: none; }
+            .menu-trigger, .close-sidebar { display: none; }
+            .bento { grid-template-columns: repeat(2, 1fr); }
+            .viewport { padding: 4rem 3rem; }
+            .overlay { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <!-- PNG Logo Wrapper -->
+                <a href="index.html" class="brand">
+                    <img src="logo.jpg" alt="RanjanLabs" class="main-logo">
+                </a>
+                <button class="close-sidebar" onclick="window.toggleSidebar()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="18" height="18"><path d="M18 6L6 18M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <nav class="nav-list">
+                <a href="index.html" class="nav-item active">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+                    <span>Terminal Home</span>
+                </a>
+                <a href="tools.html" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
+                    <span>Tool Lab</span>
+                </a>
+                <a href="learning.html" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+                    <span>Developer Learning</span>
+                </a>
+                <a href="notes.html" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                    <span>Lab Notes</span>
+                </a>
+                <a href="matrix.html" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                    <span>MatrixLibrary</span>
+                </a>
+            </nav>
+            <!-- System Status remains minimalist at bottom -->
+            <div style="padding: 1.25rem; border-top: 1px solid var(--border-subtle)">
+                <div style="display:flex; align-items:center; gap:12px; background: var(--bg-base); padding: 12px; border-radius: var(--radius-md);">
+                    <div style="width:8px; height:8px; border-radius:50%; background:#10b981;"></div>
+                    <div>
+                        <div style="font-size: 0.75rem; font-weight:700">v4.2.0-stable</div>
+                        <div style="font-size: 0.6rem; color:var(--text-muted); font-family: var(--font-mono)">NODE_ID: 2025</div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <div class="overlay" id="overlay" onclick="window.toggleSidebar()"></div>
+
+        <main class="main-container">
+            <header>
+                <button class="menu-trigger" onclick="window.toggleSidebar()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="22"><path d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                </button>
+                <!-- Desktop Header Branding if desired, otherwise kept empty for minimalism -->
+                <div style="font-family: var(--font-mono); font-size: 0.75rem; color:var(--text-dim); font-weight: 600;">ENV_STABLE</div>
+            </header>
+
+            <div class="viewport" id="viewport">
+                <div class="content-wrap">
+                    <section class="hero">
+                        <span class="badge">SESSION_ACTIVE // 2025</span>
+                        <h1>Dream. Design. <br/><span class="accent-text">Deliver.</span></h1>
+                        <p class="subtitle">RanjanLabs: A minimalist frontier for technical research and software innovation.</p>
+                        
+                        <div class="search-bar">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                            <input type="text" id="searchInput" placeholder="Search transmissions...">
+                        </div>
+                    </section>
+
+                    <span class="section-label" id="blog-title">LATEST_TRANSMISSIONS</span>
+                    <div class="bento" id="recent-posts">
+                        <!-- Blog content dynamically loaded -->
+                    </div>
+                </div>
+            </div>
+            <button id="scrollTopBtn" onclick="window.scrollToTop()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="20"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+            </button>
+        </main>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/marked@4.0.10/marked.min.js"></script>
+    <script src="index.js"></script>
+</body>
+</html>
