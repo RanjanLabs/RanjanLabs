@@ -14,7 +14,7 @@ window.scrollToTop = function() {
     }
 };
 
-const POSTS_JSON_PATH = './content/index.json';
+const POSTS_JSON_PATH = './Content/index.json';
 const RECENT_POST_FOLDER = 'blog'; 
 let allLoadedBlogPosts = [];
 
@@ -71,4 +71,5 @@ window.addEventListener('DOMContentLoaded', () => {
             `).join('');
         });
     }
+
 });
