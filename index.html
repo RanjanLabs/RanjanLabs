@@ -18,6 +18,7 @@
     <link rel="stylesheet" type="text/css" href="index.css">
       </head>
 <body>
+    
     <div class="app-shell">
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
@@ -71,29 +72,37 @@
                 <button class="menu-trigger" onclick="window.toggleSidebar()">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="22"><path d="M4 6h16M4 12h16M4 18h16"></path></svg>
                 </button>
-                <!-- Desktop Header Branding if desired, otherwise kept empty for minimalism -->
                 <div style="font-family: var(--font-mono); font-size: 0.75rem; color:var(--text-dim); font-weight: 600;">ENV_STABLE</div>
             </header>
 
             <div class="viewport" id="viewport">
-                <div class="content-wrap">
-                    <section class="hero">
-                        <span class="badge">SESSION_ACTIVE // 2025</span>
-                        <h1>Dream. Design. <span class="accent-text">Deliver.</span></h1>
-                        <p class="subtitle">RanjanLabs: A minimalist frontier for technical research and software innovation.</p>
-                        
-                        <div class="search-bar">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                            <input type="text" id="searchInput" placeholder="Search transmissions...">
-                        </div>
-                    </section>
-
-                    <span class="section-label" id="blog-title">LATEST_TRANSMISSIONS</span>
-                    <div class="bento" id="recent-posts">
-                        <!-- Blog content dynamically loaded -->
-                    </div>
+    <div class="content-wrap">
+        <div id="home-view">
+            <section class="hero">
+                <span class="badge">SESSION_ACTIVE // 2025</span>
+                <h1>Dream. Design. <span class="accent-text">Deliver.</span></h1>
+                <p class="subtitle">RanjanLabs: A minimalist frontier for technical research and software innovation.</p>
+                
+                <div class="search-bar">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    <input type="text" id="searchInput" placeholder="Search transmissions...">
                 </div>
-            </div>
+            </section>
+
+            <span class="section-label" id="blog-title">LATEST_TRANSMISSIONS</span>
+            <div class="bento" id="recent-posts">
+                </div>
+        </div>
+
+        <div id="blog-viewer" style="display: none;">
+            <button onclick="window.closeBlog()" style="background: var(--bg-panel); border: 1px solid var(--border-subtle); padding: 8px 16px; border-radius: var(--radius-sm); cursor: pointer; margin-bottom: 2rem; color: var(--text-dim); font-family: var(--font-mono);">
+                ← RETURN_TO_TERMINAL
+            </button>
+            <div id="content-render" class="markdown-body"></div>
+        </div>
+    </div>
+</div>
+            
             <button id="scrollTopBtn" onclick="window.scrollToTop()">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="20"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
             </button>
