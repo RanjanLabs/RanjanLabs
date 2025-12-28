@@ -1,112 +1,110 @@
-
 const POSTS_JSON_PATH = './Content/index.json';
 const CONTENT_BASE_PATH = './Content/';
-const RECENT_POST_FOLDER = 'blog'; 
 
+const sidebar = document.getElementById('sidebar');
+const overlay = document.getElementById('overlay');
+const homeView = document.getElementById('home-view');
+const blogViewer = document.getElementById('blog-viewer');
+const contentRender = document.getElementById('content-render');
+const recentPostsContainer = document.getElementById('recent-posts');
+const searchInput = document.getElementById('searchInput');
 
-const blogContentCache = {};
-let allLoadedBlogPosts = [];
-
-
-
-const contentWrap = document.querySelector('.content-wrap');
-const heroSection = document.querySelector('.hero');
-const blogTitleLabel = document.getElementById('blog-title');
-const recentPostsGrid = document.getElementById('recent-posts');
-
-
-const readerView = document.createElement('div');
-readerView.id = 'js-reader-view';
-readerView.style.display = 'none';
-readerView.style.paddingTop = '1rem';
-readerView.innerHTML = `
-    <button id="js-back-btn" style="
-        display: flex; align-items: center; gap: 8px;
-        background: var(--bg-panel); border: 1px solid var(--border-subtle);
-        padding: 10px 16px; border-radius: var(--radius-md);
-        cursor: pointer; color: var(--text-dim); font-family: var(--font-mono);
-        font-size: 0.8rem; margin-bottom: 2rem; transition: 0.2s;
-    ">
-        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-        <span>RETURN_TO_TERMINAL</span>
-    </button>
-    <article id="js-content-render" class="markdown-body" style="line-height: 1.7; color: var(--text-main);"></article>
-`;
-
-contentWrap.appendChild(readerView);
-
-const contentRender = document.getElementById('js-content-render');
-const backBtn = document.getElementById('js-back-btn');
-
-
-
-const showReader = () => {
-    
-    heroSection.style.display = 'none';
-    blogTitleLabel.style.display = 'none';
-    recentPostsGrid.style.display = 'none';
-    
-    
-    readerView.style.display = 'block';
-    window.scrollToTop();
+window.toggleSidebar = function() {
+    sidebar.classList.toggle('active');
+    overlay.classList.toggle('active');
 };
 
-const hideReader = () => {
-    
-    readerView.style.display = 'none';
-    
-    
-    heroSection.style.display = 'block';
-    blogTitleLabel.style.display = 'flex'; 
-    recentPostsGrid.style.display = 'grid'; 
-    window.scrollToTop();
+if(overlay) {
+    overlay.addEventListener('click', () => {
+        sidebar.classList.remove('active');
+        overlay.classList.remove('active');
+    });
+}
+
+
+window.closeBlog = function() {
+    blogViewer.style.display = 'none';
+    homeView.style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 };
 
-backBtn.addEventListener('click', hideReader);
-
-
-
-const openPost = async (postId) => {
-    const post = allLoadedBlogPosts.find(p => p.id === postId);
+async function openBlog(postId, allPosts) {
+    const post = allPosts.find(p => p.id === postId);
     if (!post) return;
 
-    showReader();
-    contentRender.innerHTML = '<p style="color:var(--text-muted)">
-
-    const contentPath = CONTENT_BASE_PATH + post.fileName;
-
+    // Switch Views
+    homeView.style.display = 'none';
+    blogViewer.style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     
-    if (!blogContentCache[contentPath]) {
-        try {
-            const response = await fetch(contentPath);
-            if (!response.ok) throw new Error("File not found");
-            const text = await response.text();
-            blogContentCache[contentPath] = text;
-        } catch (err) {
-            contentRender.innerHTML = `<p style="color:red">
-            return;
+    // Show Loading
+    contentRender.innerHTML = '<p style="color:gray; font-family:monospace">// DOWNLOADING DATA PACKET...</p>';
+
+    try {
+        const response = await fetch(CONTENT_BASE_PATH + post.fileName);
+        if (!response.ok) throw new Error("File not found");
+        
+        const text = await response.text();
+        
+        // Render Markdown or Text
+        if (post.fileType === 'md' && window.marked) {
+            contentRender.innerHTML = marked.parse(text);
+        } else {
+            contentRender.innerHTML = text; 
         }
+    } catch (err) {
+        contentRender.innerHTML = `<p style="color:red">ERROR: Could not load file. Check if '${post.fileName}' exists in /Content folder.</p>`;
     }
+}
 
-    
-    const rawContent = blogContentCache[contentPath];
-    if (post.fileType === 'md' && window.marked) {
-        contentRender.innerHTML = marked.parse(rawContent);
-    } else {
-        contentRender.innerHTML = rawContent;
+
+async function initSystem() {
+    try {
+        const response = await fetch(POSTS_JSON_PATH);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const allPosts = await response.json();
+        
+        // Render the list
+        renderPosts(allPosts, allPosts); 
+
+        // Setup Search
+        if(searchInput) {
+            searchInput.addEventListener('input', (e) => {
+                const term = e.target.value.toLowerCase();
+                const filtered = allPosts.filter(p => 
+                    p.title.toLowerCase().includes(term) || 
+                    (p.summary && p.summary.toLowerCase().includes(term))
+                );
+                renderPosts(filtered, allPosts);
+            });
+        }
+
+    } catch (err) {
+        console.error(err);
+        recentPostsContainer.innerHTML = `
+            <div style="color:red; padding:1rem; border:1px solid red; border-radius:8px;">
+                <strong>SYSTEM ERROR:</strong> Could not load 'Content/index.json'.<br>
+                1. Check if the file exists.<br>
+                2. If testing locally, use a local server (VS Code Live Server), not file://.
+            </div>
+        `;
     }
-};
+}
 
-const displayPostLinks = (posts) => {
-    recentPostsGrid.innerHTML = '';
+function renderPosts(postsToRender, allPostsReference) {
+    recentPostsContainer.innerHTML = '';
     
-    if (posts.length === 0) {
-        recentPostsGrid.innerHTML = '<div style="color:var(--text-muted)">No transmissions found.</div>';
+    if (postsToRender.length === 0) {
+        recentPostsContainer.innerHTML = '<p style="color:gray">No transmissions found.</p>';
         return;
     }
 
-    posts.forEach(post => {
-        
+    postsToRender.forEach(post => {
+        if (post.folder !== 'blog') return;
+
         const card = document.createElement('div');
         card.className = 'item-card';
         card.innerHTML = `
@@ -115,71 +113,11 @@ const displayPostLinks = (posts) => {
             <p class="card-body">${post.summary}</p>
         `;
         
-        card.onclick = () => openPost(post.id);
-        recentPostsGrid.appendChild(card);
+        
+        card.onclick = () => openBlog(post.id, allPostsReference);
+        
+        recentPostsContainer.appendChild(card);
     });
-};
+}
 
-
-
-(async () => {
-    try {
-        const response = await fetch(POSTS_JSON_PATH);
-        if (!response.ok) throw new Error("Metadata failed");
-        allLoadedBlogPosts = await response.json();
-        
-        
-        const blogPosts = allLoadedBlogPosts.filter(p => p.folder === RECENT_POST_FOLDER);
-        displayPostLinks(blogPosts);
-    } catch (err) {
-        console.error("System Failure:", err);
-        recentPostsGrid.innerHTML = `<p style="color:red">SYSTEM_FAILURE: ${err.message}</p>`;
-    }
-})();
-
-
-
-const sidebar = document.getElementById('sidebar');
-const overlay = document.getElementById('overlay');
-const searchInput = document.getElementById('searchInput');
-
-
-window.toggleSidebar = () => {
-    sidebar.classList.toggle('active');
-    overlay.classList.toggle('active');
-};
-
-
-overlay.onclick = window.toggleSidebar;
-
-
-searchInput.addEventListener('input', (e) => {
-    const term = e.target.value.toLowerCase();
-    
-    
-    if (readerView.style.display === 'block' && term.length > 0) {
-        hideReader();
-    }
-
-    const filtered = allLoadedBlogPosts.filter(p => 
-        (p.title + p.summary + p.searchableContent).toLowerCase().includes(term)
-    );
-    
-    
-    blogTitleLabel.textContent = term ? `SEARCH_RESULTS: ${filtered.length}` : 'LATEST_TRANSMISSIONS';
-    displayPostLinks(filtered);
-});
-
-
-const scrollBtn = document.getElementById('scrollTopBtn');
-const viewport = document.getElementById('viewport');
-
-window.scrollToTop = () => viewport.scrollTo({ top: 0, behavior: "smooth" });
-
-viewport.addEventListener('scroll', () => {
-    if (viewport.scrollTop > 300) {
-        scrollBtn.classList.add('visible');
-    } else {
-        scrollBtn.classList.remove('visible');
-    }
-});
+initSystem();
