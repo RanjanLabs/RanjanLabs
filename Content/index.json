@@ -67,7 +67,7 @@
     "summary": "An analysis of why the language is becoming mandatory for critical systems and how it improves security.",
     "fileName": "rust-safety.md",
     "fileType": "md",
-    "folder": "techskills",
+    "folder": "blog",
     "searchableContent": "rust programming memory safety performance tutorial"
   }
 ]
