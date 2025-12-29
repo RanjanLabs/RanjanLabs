@@ -1,5 +1,5 @@
 // --- 1. CONFIGURATION ---
-const POSTS_JSON_PATH = 'Content/index.json';
+const POSTS_JSON_PATH = './Content/index.json';
 const CONTENT_BASE_PATH = './Content/';
 
 // --- 2. SELECTORS ---
@@ -80,100 +80,26 @@ async function openBlog(postId, allPosts) {
         
         const text = await response.text();
         
-        // 1. Configure Marked options for GitHub Flavor
-        if (window.marked) {
-            marked.setOptions({
-                gfm: true,        // GitHub Flavored Markdown
-                breaks: true,     // Enter key creates new line
-                headerIds: false, // Prevent clutter
-            });
-        }
-
-        // 2. Render logic
+        // Render Markdown using marked.js
         if (post.fileType === 'md' && window.marked) {
             contentRender.innerHTML = marked.parse(text);
         } else {
-            // Even HTML files get injected here to inherit the GitHub typography
             contentRender.innerHTML = text;
         }
 
-        // 3. Add Secondary Back Button
+        // Add a secondary "Back to Top" link at the bottom of the article for convenience
         const bottomNav = document.createElement('div');
-        bottomNav.style.marginTop = "4rem";
-        bottomNav.style.paddingTop = "2rem";
+        bottomNav.style.marginTop = "3rem";
+        bottomNav.style.paddingTop = "1rem";
         bottomNav.style.borderTop = "1px solid var(--border-subtle)";
-        bottomNav.style.display = "flex";
-        bottomNav.style.justifyContent = "space-between";
-        
         bottomNav.innerHTML = `
-            <span style="font-size: 0.8rem; color: var(--text-muted);">END OF TRANSMISSION</span>
-            <button onclick="window.scrollToTop()" style="background:none; border:none; color:var(--accent); cursor:pointer; font-family:var(--font-mono); font-weight:600;">
+            <button onclick="window.scrollToTop()" style="background:none; border:none; color:var(--accent); cursor:pointer; font-family:var(--font-mono);">
                 ↑ RETURN_TO_HEADER
             </button>
         `;
         contentRender.appendChild(bottomNav);
 
     } catch (err) {
-        console.error(err);
-        contentRender.innerHTML = `<p style="color:red">ERROR: Data packet lost for ${post.fileName}</p>`;
-    }
-}
-
-// --- 6. INITIALIZATION ---
-
-async function initSystem() {
-    try {
-        const response = await fetch(POSTS_JSON_PATH);
-        const allPosts = await response.json();
-        renderPosts(allPosts, allPosts);
-
-        if(searchInput) {
-            searchInput.addEventListener('input', (e) => {
-                const term = e.target.value.toLowerCase();
-                const filtered = allPosts.filter(p => 
-                    p.title.toLowerCase().includes(term) || 
-                    (p.summary && p.summary.toLowerCase().includes(term))
-                );
-                renderPosts(filtered, allPosts);
-            });
-        }
-    } catch (err) {
-        console.error("System Failure:", err);
-        recentPostsContainer.innerHTML = '<p style="color:red">SYSTEM OFFLINE: Metadata missing.</p>';
-    }
-}
-
-function renderPosts(postsToRender, allPostsRef) {
-    recentPostsContainer.innerHTML = '';
-    if (postsToRender.length === 0) {
-        recentPostsContainer.innerHTML = '<p style="color:var(--text-muted)">No transmissions found.</p>';
-        return;
-    }
-    postsToRender.forEach(post => {
-        if (post.folder !== 'blog') return;
-        const card = document.createElement('div');
-        card.className = 'item-card';
-        card.innerHTML = `
-            <span class="card-meta">${post.date}</span>
-            <h3 class="card-title">${post.title}</h3>
-            <p class="card-body">${post.summary}</p>
-        `;
-        card.onclick = () => openBlog(post.id, allPostsRef);
-        recentPostsContainer.appendChild(card);
-    });
-}
-
-initSystem();        
-        bottomNav.innerHTML = `
-            <span style="font-size: 0.8rem; color: var(--text-muted);">END OF TRANSMISSION</span>
-            <button onclick="window.scrollToTop()" style="background:none; border:none; color:var(--accent); cursor:pointer; font-family:var(--font-mono); font-weight:600;">
-                ↑ RETURN_TO_HEADER
-            </button>
-        `;
-        contentRender.appendChild(bottomNav);
-
-    } catch (err) {
-        console.error(err);
         contentRender.innerHTML = `<p style="color:red">ERROR: Data packet lost for ${post.fileName}</p>`;
     }
 }
@@ -223,4 +149,3 @@ function renderPosts(postsToRender, allPostsRef) {
 }
 
 initSystem();
-
