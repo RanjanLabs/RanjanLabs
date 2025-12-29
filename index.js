@@ -163,4 +163,64 @@ function renderPosts(postsToRender, allPostsRef) {
     });
 }
 
+initSystem();        
+        bottomNav.innerHTML = `
+            <span style="font-size: 0.8rem; color: var(--text-muted);">END OF TRANSMISSION</span>
+            <button onclick="window.scrollToTop()" style="background:none; border:none; color:var(--accent); cursor:pointer; font-family:var(--font-mono); font-weight:600;">
+                ↑ RETURN_TO_HEADER
+            </button>
+        `;
+        contentRender.appendChild(bottomNav);
+
+    } catch (err) {
+        console.error(err);
+        contentRender.innerHTML = `<p style="color:red">ERROR: Data packet lost for ${post.fileName}</p>`;
+    }
+}
+
+// --- 6. INITIALIZATION ---
+
+async function initSystem() {
+    try {
+        const response = await fetch(POSTS_JSON_PATH);
+        const allPosts = await response.json();
+        renderPosts(allPosts, allPosts);
+
+        if(searchInput) {
+            searchInput.addEventListener('input', (e) => {
+                const term = e.target.value.toLowerCase();
+                const filtered = allPosts.filter(p => 
+                    p.title.toLowerCase().includes(term) || 
+                    (p.summary && p.summary.toLowerCase().includes(term))
+                );
+                renderPosts(filtered, allPosts);
+            });
+        }
+    } catch (err) {
+        console.error("System Failure:", err);
+        recentPostsContainer.innerHTML = '<p style="color:red">SYSTEM OFFLINE: Metadata missing.</p>';
+    }
+}
+
+function renderPosts(postsToRender, allPostsRef) {
+    recentPostsContainer.innerHTML = '';
+    if (postsToRender.length === 0) {
+        recentPostsContainer.innerHTML = '<p style="color:var(--text-muted)">No transmissions found.</p>';
+        return;
+    }
+    postsToRender.forEach(post => {
+        if (post.folder !== 'blog') return;
+        const card = document.createElement('div');
+        card.className = 'item-card';
+        card.innerHTML = `
+            <span class="card-meta">${post.date}</span>
+            <h3 class="card-title">${post.title}</h3>
+            <p class="card-body">${post.summary}</p>
+        `;
+        card.onclick = () => openBlog(post.id, allPostsRef);
+        recentPostsContainer.appendChild(card);
+    });
+}
+
 initSystem();
+
