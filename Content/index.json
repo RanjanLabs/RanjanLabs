@@ -50,6 +50,17 @@
     "searchableContent": "learn everything about html in a fun way"
   },
   {
+    "id": "blog-005",
+    "title": "Web Developemnt RoadMap",
+    "date": "2025.12.29",
+    "summary": "Here's the Road Map for you dream to be a Frontend Developer",
+    "fileName": "roadmap.html",
+    "fileType": "html",
+    "folder": "tech",
+    "searchableContent": "html Deb Developer Developement Roadmap frontend "
+  }
+  
+  {
     "id": "tech-001",
     "title": "A Look at Rust's Memory Safety",
     "date": "2024.10.30",
