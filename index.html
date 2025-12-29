@@ -68,19 +68,30 @@
         <div class="overlay" id="overlay" onclick="window.toggleSidebar()"></div>
 
         <main class="main-container">
+
+
             <header>
-                <button class="menu-trigger" onclick="window.toggleSidebar()">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="22"><path d="M4 6h16M4 12h16M4 18h16"></path></svg>
-                </button>
-                <div style="font-family: var(--font-mono); font-size: 0.75rem; color:var(--text-dim); font-weight: 600;">ENV_STABLE</div>
-            </header>
+    <button class="menu-trigger" onclick="window.toggleSidebar()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="22"><path d="M4 6h16M4 12h16M4 18h16"></path></svg>
+    </button>
+    
+    <div style="display: flex; align-items: center; gap: 50px; margin-left: 30px;">
+
+        <div style="font-family: var(--font-mono); font-size: 0.75rem; color:var(--text-dim); font-weight: 600;"><a href="index.html" style="text-decoration: none; color: cornflowerblue;"> ENV_STABLE</a></div>
+        
+        <button id="themeToggle" onclick="window.toggleTheme()" style="background:none; border:none; cursor:pointer; color:var(--text-dim);">
+            <svg class="sun-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+            </button>
+    </div>
+</header>
+
 
             <div class="viewport" id="viewport">
     <div class="content-wrap">
         <div id="home-view">
             <section class="hero">
                 <span class="badge">SESSION_ACTIVE // 2025</span>
-                <h1>Dream. Design. <span class="accent-text">Deliver.</span></h1>
+                <h1 style="text-align: center;">Dream. Design. <span class="accent-text">Deliver.</span></h1>
                 <p class="subtitle">RanjanLabs: A minimalist frontier for technical research and software innovation.</p>
                 
                 <div class="search-bar">
