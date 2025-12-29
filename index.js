@@ -2,10 +2,7 @@
 const POSTS_JSON_PATH = './Content/index.json';
 const CONTENT_BASE_PATH = './Content/';
 
-// --- 2. STATE MANAGEMENT ---
-let allLoadedBlogPosts = []; // Global store for data
-
-// --- 3. SELECTORS ---
+// --- 2. SELECTORS ---
 const sidebar = document.getElementById('sidebar');
 const overlay = document.getElementById('overlay');
 const homeView = document.getElementById('home-view');
@@ -15,7 +12,7 @@ const recentPostsContainer = document.getElementById('recent-posts');
 const searchInput = document.getElementById('searchInput');
 const viewport = document.getElementById('viewport');
 
-// --- 4. THEME MANAGER ---
+// --- 3. THEME MANAGER ---
 function toggleTheme() {
     const body = document.body;
     const isDark = body.getAttribute('data-theme') === 'dark';
@@ -25,89 +22,54 @@ function toggleTheme() {
     localStorage.setItem('theme', newTheme);
 }
 
+// Check saved preference
 if (localStorage.getItem('theme') === 'dark') {
     document.body.setAttribute('data-theme', 'dark');
 }
 window.toggleTheme = toggleTheme;
 
-// --- 5. SIDEBAR LOGIC ---
+// --- 4. NAVIGATION & ROUTER ---
+
+// Sidebar Logic
 window.toggleSidebar = function() {
     sidebar.classList.toggle('active');
     overlay.classList.toggle('active');
 };
 if(overlay) overlay.onclick = window.toggleSidebar;
 
-
-// --- 6. ROUTER ENGINE (The Fix) ---
-
-// A. Central Function to decide what to show based on URL
-async function handleRouting() {
-    const params = new URLSearchParams(window.location.search);
-    const permalinkFile = params.get('post');
-
-    if (permalinkFile) {
-        // 1. URL says: Show a Post
-        const post = allLoadedBlogPosts.find(p => p.fileName === permalinkFile);
-        if (post) {
-            renderReaderView(post);
-        } else {
-            // File not found in JSON? Go home.
-            renderHomeView();
-        }
-    } else {
-        // 2. URL says: No post param? Show Home.
-        renderHomeView();
-    }
-}
-
-// B. Listen for Browser Back/Forward buttons
-window.addEventListener('popstate', handleRouting);
-
-// C. UI Actions (Buttons call these)
+// Router Logic (Permalink System)
 window.closeBlog = function() {
-    // Update URL to remove ?post=...
-    const url = new URL(window.location);
-    url.searchParams.delete('post');
-    window.history.pushState({}, '', url);
-    
-    // Trigger Router
-    handleRouting();
-};
-
-function triggerPostOpen(postId) {
-    const post = allLoadedBlogPosts.find(p => p.id === postId);
-    if (!post) return;
-
-    // Update URL to include ?post=...
-    const url = new URL(window.location);
-    url.searchParams.set('post', post.fileName);
-    window.history.pushState({}, '', url);
-
-    // Trigger Router
-    handleRouting();
-}
-
-
-// --- 7. RENDERING LOGIC ---
-
-function renderHomeView() {
+    // 1. UI Reset
     blogViewer.style.display = 'none';
     homeView.style.display = 'block';
     contentRender.innerHTML = ''; // Clear memory
     viewport.scrollTo({ top: 0, behavior: 'smooth' });
-}
 
-async function renderReaderView(post) {
-    // Switch UI
+    // 2. URL Reset (Remove ?post=...)
+    const url = new URL(window.location);
+    url.searchParams.delete('post');
+    window.history.pushState({}, '', url);
+};
+
+async function openBlog(postId, allPosts) {
+    const post = allPosts.find(p => p.id === postId);
+    if (!post) return;
+
+    // 1. UI Switch
     homeView.style.display = 'none';
     blogViewer.style.display = 'block';
     viewport.scrollTo({ top: 0, behavior: 'smooth' });
 
-    // Show Loading
-    contentRender.innerHTML = '<p style="color:var(--text-dim); font-family:monospace">// DECRYPTING DATA STREAM...</p>';
+    // 2. URL Update (Permalink)
+    const url = new URL(window.location);
+    url.searchParams.set('post', post.fileName);
+    window.history.pushState({}, '', url);
+
+    // 3. Render Engine
+    contentRender.innerHTML = '<p style="color:var(--text-dim); font-family:monospace">// FETCHING DOCUMENT...</p>';
 
     try {
-        // ENGINE A: HTML FILES (Iframe)
+        // ENGINE A: HTML FILES (As Documented - Iframe)
         if (post.fileType === 'html') {
             const iframeSrc = CONTENT_BASE_PATH + post.fileName;
             contentRender.innerHTML = `
@@ -127,7 +89,7 @@ async function renderReaderView(post) {
         const text = await response.text();
 
         if (window.marked) {
-            marked.setOptions({ gfm: true, breaks: true });
+            marked.setOptions({ gfm: true, breaks: true }); // Enable GitHub Flavor
             contentRender.innerHTML = marked.parse(text);
         } else {
             contentRender.innerHTML = `<pre>${text}</pre>`;
@@ -138,31 +100,38 @@ async function renderReaderView(post) {
     }
 }
 
-
-// --- 8. INITIALIZATION ---
+// --- 5. INITIALIZATION ---
 
 async function initSystem() {
     try {
         // 1. Fetch Metadata
         const response = await fetch(POSTS_JSON_PATH);
-        allLoadedBlogPosts = await response.json(); // Save to global var
+        const allPosts = await response.json();
         
-        // 2. Render List
-        renderPostList(allLoadedBlogPosts);
+        // 2. Render Home List
+        renderPosts(allPosts, allPosts);
 
-        // 3. Setup Search
+        // 3. Search Listener
         if(searchInput) {
             searchInput.addEventListener('input', (e) => {
                 const term = e.target.value.toLowerCase();
-                const filtered = allLoadedBlogPosts.filter(p => 
+                const filtered = allPosts.filter(p => 
                     p.title.toLowerCase().includes(term)
                 );
-                renderPostList(filtered);
+                renderPosts(filtered, allPosts);
             });
         }
 
-        // 4. CHECK URL (Run Router for the first time)
-        handleRouting();
+        // 4. CHECK URL FOR PERMALINK
+        const params = new URLSearchParams(window.location.search);
+        const permalinkFile = params.get('post');
+        
+        if (permalinkFile) {
+            const linkedPost = allPosts.find(p => p.fileName === permalinkFile);
+            if (linkedPost) {
+                openBlog(linkedPost.id, allPosts);
+            }
+        }
 
     } catch (err) {
         console.error(err);
@@ -170,13 +139,13 @@ async function initSystem() {
     }
 }
 
-function renderPostList(posts) {
+function renderPosts(postsToRender, allPostsRef) {
     recentPostsContainer.innerHTML = '';
-    if (posts.length === 0) {
+    if (postsToRender.length === 0) {
         recentPostsContainer.innerHTML = '<p style="color:var(--text-muted)">No transmissions found.</p>';
         return;
     }
-    posts.forEach(post => {
+    postsToRender.forEach(post => {
         if (post.folder !== 'blog') return;
         const card = document.createElement('div');
         card.className = 'item-card';
@@ -185,8 +154,7 @@ function renderPostList(posts) {
             <h3 class="card-title">${post.title}</h3>
             <p class="card-body">${post.summary}</p>
         `;
-        // Click triggers the URL update
-        card.onclick = () => triggerPostOpen(post.id);
+        card.onclick = () => openBlog(post.id, allPostsRef);
         recentPostsContainer.appendChild(card);
     });
 }
