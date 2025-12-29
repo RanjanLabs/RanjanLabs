@@ -218,3 +218,108 @@ pre { background: var(--bg-elevated); padding: 1rem; border-radius: var(--radius
     border: 1px solid var(--border-subtle);
 }
 .markdown-body ul { padding-left: 1.5rem; margin-bottom: 1.5rem; }  
+
+/* --- GITHUB STYLE MARKDOWN SYSTEM (Light & Dark) --- */
+
+.markdown-body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    word-wrap: break-word;
+    color: var(--text-main);
+    padding-bottom: 4rem;
+}
+
+/* Headings */
+.markdown-body h1, .markdown-body h2 {
+    padding-bottom: 0.3em;
+    border-bottom: 1px solid var(--border-subtle);
+    margin-top: 24px;
+    margin-bottom: 16px;
+    font-weight: 600;
+    line-height: 1.25;
+}
+.markdown-body h1 { font-size: 2em; }
+.markdown-body h2 { font-size: 1.5em; }
+.markdown-body h3 { font-size: 1.25em; margin-top: 24px; margin-bottom: 16px; font-weight: 600; }
+
+/* Links */
+.markdown-body a {
+    color: var(--accent);
+    text-decoration: none;
+}
+.markdown-body a:hover { text-decoration: underline; }
+
+/* Paragraphs & Lists */
+.markdown-body p { margin-bottom: 16px; }
+.markdown-body ul, .markdown-body ol { padding-left: 2em; margin-bottom: 16px; }
+.markdown-body li { margin-top: 0.25em; }
+
+/* Code Blocks (The most important part for a tech blog) */
+.markdown-body code {
+    padding: 0.2em 0.4em;
+    margin: 0;
+    font-size: 85%;
+    background-color: rgba(175, 184, 193, 0.2); /* GitHub Grey */
+    border-radius: 6px;
+    font-family: var(--font-mono);
+}
+
+.markdown-body pre {
+    padding: 16px;
+    overflow: auto;
+    font-size: 85%;
+    line-height: 1.45;
+    background-color: #f6f8fa; /* Light mode code bg */
+    border-radius: 6px;
+    margin-bottom: 16px;
+    border: 1px solid var(--border-subtle);
+}
+
+.markdown-body pre code {
+    background-color: transparent;
+    padding: 0;
+    font-size: 100%;
+}
+
+/* Blockquotes */
+.markdown-body blockquote {
+    padding: 0 1em;
+    color: var(--text-muted);
+    border-left: 0.25em solid var(--border-subtle);
+    margin: 0 0 16px 0;
+}
+
+/* Tables */
+.markdown-body table {
+    border-spacing: 0;
+    border-collapse: collapse;
+    margin-bottom: 16px;
+    width: 100%;
+    overflow: auto;
+}
+.markdown-body table th, .markdown-body table td {
+    padding: 6px 13px;
+    border: 1px solid var(--border-subtle);
+}
+.markdown-body table tr:nth-child(2n) {
+    background-color: var(--bg-elevated);
+}
+
+/* Images */
+.markdown-body img {
+    max-width: 100%;
+    box-sizing: content-box;
+    background-color: #fff;
+    border-radius: 6px;
+    border: 1px solid var(--border-subtle);
+}
+
+/* --- DARK MODE OVERRIDES FOR MARKDOWN --- */
+[data-theme="dark"] .markdown-body pre {
+    background-color: #161b22; /* GitHub Dark code bg */
+    border-color: #30363d;
+}
+[data-theme="dark"] .markdown-body code {
+    background-color: rgba(110, 118, 129, 0.4);
+}
