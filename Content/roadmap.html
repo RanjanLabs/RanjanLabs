@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Developer Roadmap 2025</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons (Lucide via unpkg for lightweight SVG icons) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        dark: '#0f172a',
+                        card: '#1e293b',
+                        accent: '#3b82f6',
+                        glow: '#6366f1'
+                    },
+                    animation: {
+                        'blob': 'blob 7s infinite',
+                        'float': 'float 3s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569; 
+        }
+
+        /* Hide scrollbar for clean UI in cards */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Timeline Line Logic */
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, #3b82f6, #8b5cf6, #ec4899);
+            border-radius: 2px;
+            z-index: 0;
+            opacity: 0.3;
+        }
+
+        @media (max-width: 768px) {
+            .timeline-line {
+                left: 20px;
+            }
+        }
+
+        /* Reveal Animation Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="bg-dark text-slate-200 overflow-x-hidden selection:bg-accent selection:text-white">
+
+    <!-- Background Decoration -->
+    <div class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none">
+        <div class="absolute top-0 left-1/4 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
+        <div class="absolute top-0 right-1/4 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+        <div class="absolute -bottom-32 left-1/3 w-96 h-96 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-dark/80 backdrop-blur-md border-b border-slate-700/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="code-2" class="text-accent h-6 w-6"></i>
+                    <span class="font-display font-bold text-xl tracking-tight">DevPath</span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#start" class="hover:text-accent transition-colors px-3 py-2 rounded-md text-sm font-medium">Start</a>
+                        <a href="#frontend" class="hover:text-accent transition-colors px-3 py-2 rounded-md text-sm font-medium">Frontend</a>
+                        <a href="#backend" class="hover:text-accent transition-colors px-3 py-2 rounded-md text-sm font-medium">Backend</a>
+                        <button onclick="document.getElementById('resources-modal').classList.remove('hidden')" class="bg-accent hover:bg-blue-600 text-white px-4 py-2 rounded-full text-sm font-bold transition-all shadow-lg shadow-blue-500/30">
+                            Resources
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="start" class="min-h-screen flex items-center justify-center pt-16 relative">
+        <div class="text-center max-w-4xl px-4">
+            <div class="inline-block mb-4 px-4 py-1.5 rounded-full bg-slate-800/50 border border-slate-700 backdrop-blur-sm">
+                <span class="text-sm font-semibold text-accent">Updated for 2025</span>
+            </div>
+            <h1 class="text-5xl md:text-7xl font-display font-bold mb-6 tracking-tight leading-tight">
+                The Roadmap to <br/>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400">Full Stack Mastery</span>
+            </h1>
+            <p class="text-lg md:text-xl text-slate-400 mb-10 max-w-2xl mx-auto leading-relaxed">
+                A structured, step-by-step guide to becoming a professional web developer. From your first HTML tag to deploying scalable applications.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="#roadmap" class="group relative px-8 py-4 bg-white text-dark font-bold rounded-full transition-all hover:scale-105 active:scale-95">
+                    Start the Journey
+                    <i data-lucide="arrow-down" class="inline-block ml-2 w-4 h-4 group-hover:translate-y-1 transition-transform"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Roadmap Timeline -->
+    <section id="roadmap" class="py-20 relative max-w-6xl mx-auto px-4">
+        <h2 class="text-3xl md:text-4xl font-display font-bold text-center mb-16">The Curriculum</h2>
+        
+        <div class="relative">
+            <!-- The Central Line -->
+            <div class="timeline-line"></div>
+
+            <!-- Step 1: The Foundation -->
+            <div class="reveal relative z-10 mb-16 md:mb-24">
+                <div class="flex flex-col md:flex-row items-center md:justify-between w-full">
+                    <div class="hidden md:block w-5/12 text-right pr-8">
+                        <span class="text-5xl font-bold text-slate-800 absolute top-0 right-1/2 mr-10 -z-10 select-none">01</span>
+                        <h3 class="text-2xl font-bold text-white mb-2">The Internet & Basics</h3>
+                        <p class="text-slate-400">Understanding how the web works is crucial before writing code.</p>
+                    </div>
+                    
+                    <!-- Center Dot -->
+                    <div class="absolute left-0 md:left-1/2 w-10 h-10 -ml-5 md:-ml-5 rounded-full bg-dark border-4 border-blue-500 flex items-center justify-center shadow-[0_0_20px_rgba(59,130,246,0.5)] z-20">
+                        <i data-lucide="globe" class="w-5 h-5 text-white"></i>
+                    </div>
+
+                    <div class="w-full md:w-5/12 pl-12 md:pl-12 mt-4 md:mt-0">
+                        <div class="bg-card/50 backdrop-blur-md border border-slate-700 p-6 rounded-2xl hover:border-blue-500/50 transition-colors group">
+                            <h3 class="md:hidden text-xl font-bold text-white mb-2">The Internet & Basics</h3>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="px-2 py-1 text-xs rounded bg-blue-500/20 text-blue-300 border border-blue-500/30">HTTP/HTTPS</span>
+                                <span class="px-2 py-1 text-xs rounded bg-blue-500/20 text-blue-300 border border-blue-500/30">DNS</span>
+                                <span class="px-2 py-1 text-xs rounded bg-blue-500/20 text-blue-300 border border-blue-500/30">Browsers</span>
+                            </div>
+                            <ul class="space-y-2 text-slate-300 text-sm">
+                                <li class="flex items-start gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-green-400 mt-0.5"></i> How the internet works</li>
+                                <li class="flex items-start gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-green-400 mt-0.5"></i> Domain Names & Hosting</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2: HTML & CSS -->
+            <div id="frontend" class="reveal relative z-10 mb-16 md:mb-24">
+                <div class="flex flex-col md:flex-row-reverse items-center md:justify-between w-full">
+                    <div class="hidden md:block w-5/12 text-left pl-8">
+                        <span class="text-5xl font-bold text-slate-800 absolute top-0 left-1/2 ml-10 -z-10 select-none">02</span>
+                        <h3 class="text-2xl font-bold text-white mb-2">Structure & Style</h3>
+                        <p class="text-slate-400">Building the visual layer of the web. The skeleton and the skin.</p>
+                    </div>
+                    
+                    <div class="absolute left-0 md:left-1/2 w-10 h-10 -ml-5 md:-ml-5 rounded-full bg-dark border-4 border-orange-500 flex items-center justify-center shadow-[0_0_20px_rgba(249,115,22,0.5)] z-20">
+                        <i data-lucide="layout" class="w-5 h-5 text-white"></i>
+                    </div>
+
+                    <div class="w-full md:w-5/12 pl-12 md:pr-12 md:pl-0 mt-4 md:mt-0 text-left md:text-right"> <!-- Adjusted alignment for responsive -->
+                        <div class="bg-card/50 backdrop-blur-md border border-slate-700 p-6 rounded-2xl hover:border-orange-500/50 transition-colors">
+                            <h3 class="md:hidden text-xl font-bold text-white mb-2">Structure & Style</h3>
+                             <div class="flex flex-wrap gap-2 mb-4 justify-start md:justify-end">
+                                <span class="px-2 py-1 text-xs rounded bg-orange-500/20 text-orange-300 border border-orange-500/30">HTML5</span>
+                                <span class="px-2 py-1 text-xs rounded bg-blue-500/20 text-blue-300 border border-blue-500/30">CSS3</span>
+                                <span class="px-2 py-1 text-xs rounded bg-pink-500/20 text-pink-300 border border-pink-500/30">Flexbox</span>
+                            </div>
+                            <ul class="space-y-2 text-slate-300 text-sm inline-block text-left">
+                                <li class="flex items-start gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-green-400 mt-0.5"></i> Semantic HTML</li>
+                                <li class="flex items-start gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-green-400 mt-0.5"></i> Box Model & Grid</li>
+                                <li class="flex items-start gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-green-400 mt-0.5"></i> Responsive Design</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3: JavaScript -->
+            <div class="reveal relative z-10 mb-16 md:mb-24">
+                <div class="flex flex-col md:flex-row items-center md:justify-between w-full">
+                    <div class="hidden md:block w-5/12 text-right pr-8">
+                        <span class="text-5xl font-bold text-slate-800 absolute top-0 right-1/2 mr-10 -z-10 select-none">03</span>
+                        <h3 class="text-2xl font-bold text-white mb-2">Programming Logic</h3>
+                        <p class="text-slate-400">Making it interactive. The brain of the browser.</p>
+                    </div>
+                    
+                    <div class="absolute left-0 md:left-1/2 w-10 h-10 -ml-5 md:-ml-5 rounded-full bg-dark border-4 border-yellow-400 flex items-center justify-center shadow-[0_0_20px_rgba(250,204,21,0.5)] z-20">
+                        <i data-lucide="file-code-2" class="w-5 h-5 text-white"></i>
+                    </div>
+
+                    <div class="w-full md:w-5/12 pl-12 md:pl-12 mt-4 md:mt-0">
+                        <div class="bg-card/50 backdrop-blur-md border border-slate-700 p-6 rounded-2xl hover:border-yellow-400/50 transition-colors">
+                            <h3 class="md:hidden text-xl font-bold text-white mb-2">JavaScript</h3>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="px-2 py-1 text-xs rounded bg-yellow-400/20 text-yellow-200 border border-yellow-400/30">ES6+</span>
+                                <span class="px-2 py-1 text-xs rounded bg-yellow-400/20 text-yellow-200 border border-yellow-400/30">DOM</span>
+                                <span class="px-2 py-1 text-xs rounded bg-yellow-400/20 text-yellow-200 border border-yellow-400/30">Fetch API</span>
+                            </div>
+                            <ul class="space-y-2 text-slate-300 text-sm">
+                                <li class="flex items-start gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-green-400 mt-0.5"></i> Variables, Loops, Functions</li>
+                                <li class="flex items-start gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-green-400 mt-0.5"></i> Async/Await & Promises</li>
+                                <li class="flex items-start gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-green-400 mt-0.5"></i> DOM Manipulation</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 4: Tools & Version Control -->
+            <div class="reveal relative z-10 mb-16 md:mb-24">
+                <div class="flex flex-col md:flex-row-reverse items-center md:justify-between w-full">
+                    <div class="hidden md:block w-5/12 text-left pl-8">
+                        <span class="text-5xl font-bold text-slate-800 absolute top-0 left-1/2 ml-10 -z-10 select-none">04</span>
+                        <h3 class="text-2xl font-bold text-white mb-2">The Ecosystem</h3>
+                        <p class="text-slate-400">Professional tools to manage and share your code.</p>
+                    </div>
+                    
+                    <div class="absolute left-0 md:left-1/2 w-10 h-10 -ml-5 md:-ml-5 rounded-full bg-dark border-4 border-red-500 flex items-center justify-center shadow-[0_0_20px_rgba(239,68,68,0.5)] z-20">
+                        <i data-lucide="git-branch" class="w-5 h-5 text-white"></i>
+                    </div>
+
+                    <div class="w-full md:w-5/12 pl-12 md:pr-12 md:pl-0 mt-4 md:mt-0 text-left md:text-right">
+                        <div class="bg-card/50 backdrop-blur-md border border-slate-700 p-6 rounded-2xl hover:border-red-500/50 transition-colors">
+                            <h3 class="md:hidden text-xl font-bold text-white mb-2">Git & Tools</h3>
+                            <div class="flex flex-wrap gap-2 mb-4 justify-start md:justify-end">
+                                <span class="px-2 py-1 text-xs rounded bg-red-500/20 text-red-300 border border-red-500/30">Git</span>
+                                <span class="px-2 py-1 text-xs rounded bg-gray-600/20 text-gray-300 border border-gray-500/30">GitHub</span>
+                                <span class="px-2 py-1 text-xs rounded bg-blue-600/20 text-blue-300 border border-blue-500/30">VS Code</span>
+                            </div>
+                            <ul class="space-y-2 text-slate-300 text-sm inline-block text-left">
+                                <li class="flex items-start gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-green-400 mt-0.5"></i> Basic Terminal Commands</li>
+                                <li class="flex items-start gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-green-400 mt-0.5"></i> Commit, Push, Pull, Merge</li>
+                                <li class="flex items-start gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-green-400 mt-0.5"></i> NPM/Yarn Package Managers</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 5: Modern Frameworks -->
+            <div class="reveal relative z-10 mb-16 md:mb-24">
+                <div class="flex flex-col md:flex-row items-center md:justify-between w-full">
+                    <div class="hidden md:block w-5/12 text-right pr-8">
+                        <span class="text-5xl font-bold text-slate-800 absolute top-0 right-1/2 mr-10 -z-10 select-none">05</span>
+                        <h3 class="text-2xl font-bold text-white mb-2">Modern Frameworks</h3>
+                        <p class="text-slate-400">Building complex apps with components and state.</p>
+                    </div>
+                    
+                    <div class="absolute left-0 md:left-1/2 w-10 h-10 -ml-5 md:-ml-5 rounded-full bg-dark border-4 border-cyan-400 flex items-center justify-center shadow-[0_0_20px_rgba(34,211,238,0.5)] z-20">
+                        <i data-lucide="atom" class="w-5 h-5 text-white"></i>
+                    </div>
+
+                    <div class="w-full md:w-5/12 pl-12 md:pl-12 mt-4 md:mt-0">
+                        <div class="bg-card/50 backdrop-blur-md border border-slate-700 p-6 rounded-2xl hover:border-cyan-400/50 transition-colors">
+                            <h3 class="md:hidden text-xl font-bold text-white mb-2">React Ecosystem</h3>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="px-2 py-1 text-xs rounded bg-cyan-400/20 text-cyan-200 border border-cyan-400/30">React</span>
+                                <span class="px-2 py-1 text-xs rounded bg-cyan-400/20 text-cyan-200 border border-cyan-400/30">Tailwind</span>
+                                <span class="px-2 py-1 text-xs rounded bg-purple-400/20 text-purple-200 border border-purple-400/30">Redux/Zustand</span>
+                            </div>
+                            <ul class="space-y-2 text-slate-300 text-sm">
+                                <li class="flex items-start gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-green-400 mt-0.5"></i> Components & Props</li>
+                                <li class="flex items-start gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-green-400 mt-0.5"></i> Hooks (useState, useEffect)</li>
+                                <li class="flex items-start gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-green-400 mt-0.5"></i> Client-side Routing</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 6: Backend & Database -->
+            <div id="backend" class="reveal relative z-10 mb-16 md:mb-24">
+                <div class="flex flex-col md:flex-row-reverse items-center md:justify-between w-full">
+                    <div class="hidden md:block w-5/12 text-left pl-8">
+                        <span class="text-5xl font-bold text-slate-800 absolute top-0 left-1/2 ml-10 -z-10 select-none">06</span>
+                        <h3 class="text-2xl font-bold text-white mb-2">Server Side</h3>
+                        <p class="text-slate-400">Handling data, authentication, and logic.</p>
+                    </div>
+                    
+                    <div class="absolute left-0 md:left-1/2 w-10 h-10 -ml-5 md:-ml-5 rounded-full bg-dark border-4 border-green-500 flex items-center justify-center shadow-[0_0_20px_rgba(34,197,94,0.5)] z-20">
+                        <i data-lucide="server" class="w-5 h-5 text-white"></i>
+                    </div>
+
+                    <div class="w-full md:w-5/12 pl-12 md:pr-12 md:pl-0 mt-4 md:mt-0 text-left md:text-right">
+                        <div class="bg-card/50 backdrop-blur-md border border-slate-700 p-6 rounded-2xl hover:border-green-500/50 transition-colors">
+                            <h3 class="md:hidden text-xl font-bold text-white mb-2">Backend Basics</h3>
+                            <div class="flex flex-wrap gap-2 mb-4 justify-start md:justify-end">
+                                <span class="px-2 py-1 text-xs rounded bg-green-500/20 text-green-300 border border-green-500/30">Node.js</span>
+                                <span class="px-2 py-1 text-xs rounded bg-gray-500/20 text-gray-300 border border-gray-500/30">Express</span>
+                                <span class="px-2 py-1 text-xs rounded bg-yellow-600/20 text-yellow-300 border border-yellow-600/30">SQL/NoSQL</span>
+                            </div>
+                            <ul class="space-y-2 text-slate-300 text-sm inline-block text-left">
+                                <li class="flex items-start gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-green-400 mt-0.5"></i> REST API Creation</li>
+                                <li class="flex items-start gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-green-400 mt-0.5"></i> Authentication (JWT)</li>
+                                <li class="flex items-start gap-2"><i data-lucide="check-circle-2" class="w-4 h-4 text-green-400 mt-0.5"></i> Database Design (Postgres/Mongo)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- End Goal -->
+            <div class="reveal relative z-10 text-center mt-20">
+                <div class="w-20 h-20 mx-auto bg-gradient-to-tr from-blue-500 to-purple-600 rounded-full flex items-center justify-center shadow-lg shadow-purple-500/30 animate-float">
+                    <i data-lucide="trophy" class="w-10 h-10 text-white"></i>
+                </div>
+                <h3 class="text-3xl font-bold mt-6 mb-2">Full Stack Developer</h3>
+                <p class="text-slate-400 max-w-md mx-auto">The journey doesn't end here. Continuous learning is the key to this career.</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark border-t border-slate-800 py-12 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-slate-500 text-sm mb-4">Built with HTML, Tailwind CSS & JavaScript</p>
+            <div class="flex justify-center gap-6">
+                <a href="#" class="text-slate-400 hover:text-white transition-colors"><i data-lucide="github" class="w-5 h-5"></i></a>
+                <a href="#" class="text-slate-400 hover:text-white transition-colors"><i data-lucide="twitter" class="w-5 h-5"></i></a>
+                <a href="#" class="text-slate-400 hover:text-white transition-colors"><i data-lucide="linkedin" class="w-5 h-5"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Resources Modal -->
+    <div id="resources-modal" class="fixed inset-0 z-[100] hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <!-- Backdrop -->
+        <div class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm transition-opacity" onclick="document.getElementById('resources-modal').classList.add('hidden')"></div>
+
+        <div class="fixed inset-0 z-10 overflow-y-auto">
+            <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                <div class="relative transform overflow-hidden rounded-2xl bg-card border border-slate-700 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                    <div class="px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-xl font-bold text-white" id="modal-title">Learning Resources</h3>
+                            <button onclick="document.getElementById('resources-modal').classList.add('hidden')" class="text-slate-400 hover:text-white">
+                                <i data-lucide="x" class="w-6 h-6"></i>
+                            </button>
+                        </div>
+                        <div class="space-y-3">
+                            <a href="https://developer.mozilla.org" target="_blank" class="block p-3 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 transition-colors flex items-center justify-between group">
+                                <div>
+                                    <div class="font-bold text-blue-400">MDN Web Docs</div>
+                                    <div class="text-xs text-slate-400">The bible of web development</div>
+                                </div>
+                                <i data-lucide="external-link" class="w-4 h-4 text-slate-500 group-hover:text-white"></i>
+                            </a>
+                            <a href="https://freecodecamp.org" target="_blank" class="block p-3 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 transition-colors flex items-center justify-between group">
+                                <div>
+                                    <div class="font-bold text-white">FreeCodeCamp</div>
+                                    <div class="text-xs text-slate-400">Interactive coding lessons</div>
+                                </div>
+                                <i data-lucide="external-link" class="w-4 h-4 text-slate-500 group-hover:text-white"></i>
+                            </a>
+                            <a href="https://roadmap.sh" target="_blank" class="block p-3 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 transition-colors flex items-center justify-between group">
+                                <div>
+                                    <div class="font-bold text-purple-400">Roadmap.sh</div>
+                                    <div class="text-xs text-slate-400">Detailed visual roadmaps</div>
+                                </div>
+                                <i data-lucide="external-link" class="w-4 h-4 text-slate-500 group-hover:text-white"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Scroll Reveal Animation Logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const reveals = document.querySelectorAll('.reveal');
+
+            const revealOnScroll = () => {
+                const windowHeight = window.innerHeight;
+                const elementVisible = 150;
+
+                reveals.forEach((reveal) => {
+                    const elementTop = reveal.getBoundingClientRect().top;
+                    if (elementTop < windowHeight - elementVisible) {
+                        reveal.classList.add('active');
+                    }
+                });
+            };
+
+            // Initial check
+            revealOnScroll();
+
+            // Check on scroll
+            window.addEventListener('scroll', revealOnScroll);
+        });
+    </script>
+</body>
+</html>
