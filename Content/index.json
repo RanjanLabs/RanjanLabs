@@ -40,6 +40,16 @@
     "searchableContent": "advertisement sponsor project aurora launch premium"
   },
   {
+    "id": "blog-004",
+    "title": "Learn HTML",
+    "date": "2025.12.29",
+    "summary": "Learn Html In a way that can feel you like you are playing",
+    "fileName": "learn-html.html",
+    "fileType": "html",
+    "folder": "blog",
+    "searchableContent": "learn everything about html in a fun way"
+  },
+  {
     "id": "tech-001",
     "title": "A Look at Rust's Memory Safety",
     "date": "2024.10.30",
