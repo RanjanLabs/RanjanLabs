@@ -1,6 +1,8 @@
+// --- 1. CONFIGURATION ---
 const POSTS_JSON_PATH = './Content/index.json';
 const CONTENT_BASE_PATH = './Content/';
 
+// --- 2. SELECTORS ---
 const sidebar = document.getElementById('sidebar');
 const overlay = document.getElementById('overlay');
 const homeView = document.getElementById('home-view');
@@ -8,69 +10,108 @@ const blogViewer = document.getElementById('blog-viewer');
 const contentRender = document.getElementById('content-render');
 const recentPostsContainer = document.getElementById('recent-posts');
 const searchInput = document.getElementById('searchInput');
+const scrollTopBtn = document.getElementById('scrollTopBtn');
+const viewport = document.getElementById('viewport'); // The element that actually scrolls
 
+// --- 3. THEME TOGGLE LOGIC (Dark Mode) ---
+window.toggleTheme = function() {
+    const body = document.body;
+    const isDark = body.getAttribute('data-theme') === 'dark';
+    
+    if (isDark) {
+        body.removeAttribute('data-theme');
+        localStorage.setItem('theme', 'light');
+    } else {
+        body.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+    }
+};
+
+// Check preference on load
+if (localStorage.getItem('theme') === 'dark') {
+    document.body.setAttribute('data-theme', 'dark');
+}
+
+// --- 4. NAVIGATION & SCROLL LOGIC ---
+
+// Sidebar
 window.toggleSidebar = function() {
     sidebar.classList.toggle('active');
     overlay.classList.toggle('active');
 };
+if(overlay) overlay.onclick = window.toggleSidebar;
 
-if(overlay) {
-    overlay.addEventListener('click', () => {
-        sidebar.classList.remove('active');
-        overlay.classList.remove('active');
-    });
-}
+// Scroll to Top (Works for both Main Page and Blog)
+window.scrollToTop = function() {
+    viewport.scrollTo({ top: 0, behavior: "smooth" });
+};
 
+// Show/Hide Scroll Button based on scroll position
+viewport.addEventListener('scroll', () => {
+    if (viewport.scrollTop > 400) {
+        scrollTopBtn.classList.add('visible');
+    } else {
+        scrollTopBtn.classList.remove('visible');
+    }
+});
 
+// Close Blog / Return Home
 window.closeBlog = function() {
     blogViewer.style.display = 'none';
     homeView.style.display = 'block';
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    viewport.scrollTo({ top: 0, behavior: 'smooth' }); // Reset scroll
 };
+
+// --- 5. BLOG RENDERING LOGIC ---
 
 async function openBlog(postId, allPosts) {
     const post = allPosts.find(p => p.id === postId);
     if (!post) return;
 
-    // Switch Views
     homeView.style.display = 'none';
     blogViewer.style.display = 'block';
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    
-    // Show Loading
-    contentRender.innerHTML = '<p style="color:gray; font-family:monospace">// DOWNLOADING DATA PACKET...</p>';
+    viewport.scrollTo({ top: 0, behavior: 'smooth' });
+
+    contentRender.innerHTML = '<p style="color:var(--text-dim); font-family:monospace">// DECRYPTING DATA STREAM...</p>';
 
     try {
         const response = await fetch(CONTENT_BASE_PATH + post.fileName);
-        if (!response.ok) throw new Error("File not found");
+        if (!response.ok) throw new Error("404");
         
         const text = await response.text();
         
-        // Render Markdown or Text
+        // Render Markdown using marked.js
         if (post.fileType === 'md' && window.marked) {
             contentRender.innerHTML = marked.parse(text);
         } else {
-            contentRender.innerHTML = text; 
+            contentRender.innerHTML = text;
         }
+
+        // Add a secondary "Back to Top" link at the bottom of the article for convenience
+        const bottomNav = document.createElement('div');
+        bottomNav.style.marginTop = "3rem";
+        bottomNav.style.paddingTop = "1rem";
+        bottomNav.style.borderTop = "1px solid var(--border-subtle)";
+        bottomNav.innerHTML = `
+            <button onclick="window.scrollToTop()" style="background:none; border:none; color:var(--accent); cursor:pointer; font-family:var(--font-mono);">
+                ↑ RETURN_TO_HEADER
+            </button>
+        `;
+        contentRender.appendChild(bottomNav);
+
     } catch (err) {
-        contentRender.innerHTML = `<p style="color:red">ERROR: Could not load file. Check if '${post.fileName}' exists in /Content folder.</p>`;
+        contentRender.innerHTML = `<p style="color:red">ERROR: Data packet lost for ${post.fileName}</p>`;
     }
 }
 
+// --- 6. INITIALIZATION ---
 
 async function initSystem() {
     try {
         const response = await fetch(POSTS_JSON_PATH);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
         const allPosts = await response.json();
-        
-        // Render the list
-        renderPosts(allPosts, allPosts); 
+        renderPosts(allPosts, allPosts);
 
-        // Setup Search
         if(searchInput) {
             searchInput.addEventListener('input', (e) => {
                 const term = e.target.value.toLowerCase();
@@ -81,30 +122,20 @@ async function initSystem() {
                 renderPosts(filtered, allPosts);
             });
         }
-
     } catch (err) {
-        console.error(err);
-        recentPostsContainer.innerHTML = `
-            <div style="color:red; padding:1rem; border:1px solid red; border-radius:8px;">
-                <strong>SYSTEM ERROR:</strong> Could not load 'Content/index.json'.<br>
-                1. Check if the file exists.<br>
-                2. If testing locally, use a local server (VS Code Live Server), not file://.
-            </div>
-        `;
+        console.error("System Failure:", err);
+        recentPostsContainer.innerHTML = '<p style="color:red">SYSTEM OFFLINE: Metadata missing.</p>';
     }
 }
 
-function renderPosts(postsToRender, allPostsReference) {
+function renderPosts(postsToRender, allPostsRef) {
     recentPostsContainer.innerHTML = '';
-    
     if (postsToRender.length === 0) {
-        recentPostsContainer.innerHTML = '<p style="color:gray">No transmissions found.</p>';
+        recentPostsContainer.innerHTML = '<p style="color:var(--text-muted)">No transmissions found.</p>';
         return;
     }
-
     postsToRender.forEach(post => {
         if (post.folder !== 'blog') return;
-
         const card = document.createElement('div');
         card.className = 'item-card';
         card.innerHTML = `
@@ -112,10 +143,7 @@ function renderPosts(postsToRender, allPostsReference) {
             <h3 class="card-title">${post.title}</h3>
             <p class="card-body">${post.summary}</p>
         `;
-        
-        
-        card.onclick = () => openBlog(post.id, allPostsReference);
-        
+        card.onclick = () => openBlog(post.id, allPostsRef);
         recentPostsContainer.appendChild(card);
     });
 }
