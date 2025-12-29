@@ -1,5 +1,5 @@
 // --- 1. CONFIGURATION ---
-const POSTS_JSON_PATH = 'Content/index.json';
+const POSTS_JSON_PATH = './Content/index.json';
 const CONTENT_BASE_PATH = './Content/';
 
 // --- 2. SELECTORS ---
@@ -10,136 +10,132 @@ const blogViewer = document.getElementById('blog-viewer');
 const contentRender = document.getElementById('content-render');
 const recentPostsContainer = document.getElementById('recent-posts');
 const searchInput = document.getElementById('searchInput');
-const scrollTopBtn = document.getElementById('scrollTopBtn');
-const viewport = document.getElementById('viewport'); // The element that actually scrolls
+const viewport = document.getElementById('viewport');
 
-// --- 3. THEME TOGGLE LOGIC (Dark Mode) ---
-window.toggleTheme = function() {
+// --- 3. THEME MANAGER ---
+function toggleTheme() {
     const body = document.body;
     const isDark = body.getAttribute('data-theme') === 'dark';
+    const newTheme = isDark ? 'light' : 'dark';
     
-    if (isDark) {
-        body.removeAttribute('data-theme');
-        localStorage.setItem('theme', 'light');
-    } else {
-        body.setAttribute('data-theme', 'dark');
-        localStorage.setItem('theme', 'dark');
-    }
-};
+    body.setAttribute('data-theme', isDark ? '' : 'dark');
+    localStorage.setItem('theme', newTheme);
+}
 
-// Check preference on load
+// Check saved preference
 if (localStorage.getItem('theme') === 'dark') {
     document.body.setAttribute('data-theme', 'dark');
 }
+window.toggleTheme = toggleTheme;
 
-// --- 4. NAVIGATION & SCROLL LOGIC ---
+// --- 4. NAVIGATION & ROUTER ---
 
-// Sidebar
+// Sidebar Logic
 window.toggleSidebar = function() {
     sidebar.classList.toggle('active');
     overlay.classList.toggle('active');
 };
 if(overlay) overlay.onclick = window.toggleSidebar;
 
-// Scroll to Top (Works for both Main Page and Blog)
-window.scrollToTop = function() {
-    viewport.scrollTo({ top: 0, behavior: "smooth" });
-};
-
-// Show/Hide Scroll Button based on scroll position
-viewport.addEventListener('scroll', () => {
-    if (viewport.scrollTop > 400) {
-        scrollTopBtn.classList.add('visible');
-    } else {
-        scrollTopBtn.classList.remove('visible');
-    }
-});
-
-// Close Blog / Return Home
+// Router Logic (Permalink System)
 window.closeBlog = function() {
+    // 1. UI Reset
     blogViewer.style.display = 'none';
     homeView.style.display = 'block';
-    viewport.scrollTo({ top: 0, behavior: 'smooth' }); // Reset scroll
-};
+    contentRender.innerHTML = ''; // Clear memory
+    viewport.scrollTo({ top: 0, behavior: 'smooth' });
 
-// --- 5. BLOG RENDERING LOGIC ---
+    // 2. URL Reset (Remove ?post=...)
+    const url = new URL(window.location);
+    url.searchParams.delete('post');
+    window.history.pushState({}, '', url);
+};
 
 async function openBlog(postId, allPosts) {
     const post = allPosts.find(p => p.id === postId);
     if (!post) return;
 
+    // 1. UI Switch
     homeView.style.display = 'none';
     blogViewer.style.display = 'block';
     viewport.scrollTo({ top: 0, behavior: 'smooth' });
 
-    contentRender.innerHTML = '<p style="color:var(--text-dim); font-family:monospace">// DECRYPTING DATA STREAM...</p>';
+    // 2. URL Update (Permalink)
+    const url = new URL(window.location);
+    url.searchParams.set('post', post.fileName);
+    window.history.pushState({}, '', url);
+
+    // 3. Render Engine
+    contentRender.innerHTML = '<p style="color:var(--text-dim); font-family:monospace">// FETCHING DOCUMENT...</p>';
 
     try {
-        const response = await fetch(CONTENT_BASE_PATH + post.fileName);
-        if (!response.ok) throw new Error("404");
-        
-        const text = await response.text();
-        
-        // 1. Configure Marked options for GitHub Flavor
-        if (window.marked) {
-            marked.setOptions({
-                gfm: true,        // GitHub Flavored Markdown
-                breaks: true,     // Enter key creates new line
-                headerIds: false, // Prevent clutter
-            });
+        // ENGINE A: HTML FILES (As Documented - Iframe)
+        if (post.fileType === 'html') {
+            const iframeSrc = CONTENT_BASE_PATH + post.fileName;
+            contentRender.innerHTML = `
+                <iframe src="${iframeSrc}" 
+                    style="width: 100%; height: 80vh; border: none; background: #fff; border-radius: 8px;">
+                </iframe>
+                <p style="font-size:0.8rem; color:var(--text-muted); margin-top:10px;">
+                    * Document loaded in isolation environment.
+                </p>
+            `;
+            return;
         }
 
-        // 2. Render logic
-        if (post.fileType === 'md' && window.marked) {
+        // ENGINE B: MARKDOWN FILES (GitHub Style)
+        const response = await fetch(CONTENT_BASE_PATH + post.fileName);
+        if (!response.ok) throw new Error("File not found");
+        const text = await response.text();
+
+        if (window.marked) {
+            marked.setOptions({ gfm: true, breaks: true }); // Enable GitHub Flavor
             contentRender.innerHTML = marked.parse(text);
         } else {
-            // Even HTML files get injected here to inherit the GitHub typography
-            contentRender.innerHTML = text;
+            contentRender.innerHTML = `<pre>${text}</pre>`;
         }
 
-        // 3. Add Secondary Back Button
-        const bottomNav = document.createElement('div');
-        bottomNav.style.marginTop = "4rem";
-        bottomNav.style.paddingTop = "2rem";
-        bottomNav.style.borderTop = "1px solid var(--border-subtle)";
-        bottomNav.style.display = "flex";
-        bottomNav.style.justifyContent = "space-between";
-        
-        bottomNav.innerHTML = `
-            <span style="font-size: 0.8rem; color: var(--text-muted);">END OF TRANSMISSION</span>
-            <button onclick="window.scrollToTop()" style="background:none; border:none; color:var(--accent); cursor:pointer; font-family:var(--font-mono); font-weight:600;">
-                ↑ RETURN_TO_HEADER
-            </button>
-        `;
-        contentRender.appendChild(bottomNav);
-
     } catch (err) {
-        console.error(err);
-        contentRender.innerHTML = `<p style="color:red">ERROR: Data packet lost for ${post.fileName}</p>`;
+        contentRender.innerHTML = `<p style="color:red">ERROR: Could not load ${post.fileName}</p>`;
     }
 }
 
-// --- 6. INITIALIZATION ---
+// --- 5. INITIALIZATION ---
 
 async function initSystem() {
     try {
+        // 1. Fetch Metadata
         const response = await fetch(POSTS_JSON_PATH);
         const allPosts = await response.json();
+        
+        // 2. Render Home List
         renderPosts(allPosts, allPosts);
 
+        // 3. Search Listener
         if(searchInput) {
             searchInput.addEventListener('input', (e) => {
                 const term = e.target.value.toLowerCase();
                 const filtered = allPosts.filter(p => 
-                    p.title.toLowerCase().includes(term) || 
-                    (p.summary && p.summary.toLowerCase().includes(term))
+                    p.title.toLowerCase().includes(term)
                 );
                 renderPosts(filtered, allPosts);
             });
         }
+
+        // 4. CHECK URL FOR PERMALINK
+        const params = new URLSearchParams(window.location.search);
+        const permalinkFile = params.get('post');
+        
+        if (permalinkFile) {
+            const linkedPost = allPosts.find(p => p.fileName === permalinkFile);
+            if (linkedPost) {
+                openBlog(linkedPost.id, allPosts);
+            }
+        }
+
     } catch (err) {
-        console.error("System Failure:", err);
-        recentPostsContainer.innerHTML = '<p style="color:red">SYSTEM OFFLINE: Metadata missing.</p>';
+        console.error(err);
+        recentPostsContainer.innerHTML = '<p style="color:red">SYSTEM ERROR: Metadata not found.</p>';
     }
 }
 
@@ -163,4 +159,5 @@ function renderPosts(postsToRender, allPostsRef) {
     });
 }
 
+// Start Engine
 initSystem();
