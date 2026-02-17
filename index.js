@@ -1,5 +1,5 @@
-const POSTS_JSON_PATH = './Content/index.json';
-const CONTENT_BASE_PATH = './Content/';
+const POSTS_JSON_PATH = '/Content/index.json';
+const CONTENT_BASE_PATH = '/Content/';
 
 const sidebar = document.getElementById('sidebar');
 const overlay = document.getElementById('overlay');
